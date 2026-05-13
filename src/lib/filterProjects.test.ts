@@ -111,4 +111,21 @@ describe("filterProjects", () => {
     const a = make("a", { technologies: ["React"] })
     expect(filterProjects([a], { technologies: ["react"] })).toEqual([])
   })
+
+  it("T14: sort key falls back to startDate when right-side endDate missing", () => {
+    const a = make("a", { startDate: "2024-01-01", endDate: "2024-05-01" })
+    const b: Project = {
+      id: "b",
+      title: "B",
+      shortDescription: "s",
+      fullDescription: "f",
+      technologies: ["React"],
+      category: "trabalho",
+      status: "em-andamento",
+      featured: false,
+      confidential: false,
+      startDate: "2024-12-01",
+    }
+    expect(filterProjects([a, b]).map((p) => p.id)).toEqual(["b", "a"])
+  })
 })
