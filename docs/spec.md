@@ -61,11 +61,23 @@ O projeto tem **três públicos simultâneos** com necessidades distintas, e dev
 - RF-M1-01: Exibir nome completo, cargo e tagline
 - RF-M1-02: Exibir links para GitHub e LinkedIn
 - RF-M1-03: Exibir botão de download do CV (PDF)
-- RF-M1-04: Exibir link para seção de contato
+- RF-M1-04: Exibir link para seção de contato — **renderizado apenas se `FEATURES.contact === true`**
+- RF-M1-05: Renderizar avatar à direita do texto em `md+`, acima em `<md`
+- RF-M1-06: `meta()` da rota `/` deriva `title` e `description` de `hero.json`
+- RF-M1-07: Link "Ver projetos →" para `/projects` — **renderizado apenas se `FEATURES.projects === true`**
 
 **Regras de negócio:**
 - RN-M1-01: O cargo exibido deve sempre refletir o estado atual (não pode ser hardcoded de forma que fique desatualizado sem perceber)
 - RN-M1-02: O CV para download deve ter data de versão visível no arquivo
+- RN-M1-03: `hero.json` é validado por Zod no boot da aplicação. Falha lança e impede render — não há UI quebrada
+- RN-M1-04: `cv.fileName` DEVE existir em `public/cv/` no momento do build. Garantido por `scripts/check-assets.ts`
+- RN-M1-05: `avatar.src` DEVE existir em `public/` no momento do build. Mesma guard
+- RN-M1-06: Ordem visual de CTAs: 1º Download CV, 2º Falar comigo\*, 3º Ver projetos\*, 4º GitHub, 5º LinkedIn (\*condicional a flag)
+- RN-M1-07: Hero usa `min-h-screen` em `md+` e altura automática abaixo. Conteúdo vertical-centered no breakpoint maior
+- RN-M1-08: `FEATURES.contact === false` suprime RF-M1-04 do DOM (ausência total, não `display:none`). Desvio condicional da spec
+- RN-M1-09: `FEATURES.projects === false` suprime RF-M1-07 do DOM
+
+> **Desvio condicional:** RF-M1-04 e RF-M1-07 só são renderizados quando a feature flag correspondente está `true`. Detalhes em `docs/features/m1-hero/frd-m1-hero.md` §3.5 e RN-M1-08/09.
 
 ---
 
