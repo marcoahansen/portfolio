@@ -39,7 +39,10 @@ export default tseslint.config(
       ...jsxA11y.configs.recommended.rules,
       "@typescript-eslint/consistent-type-imports": "error",
       "@typescript-eslint/consistent-type-definitions": "off",
-      "@typescript-eslint/no-unused-vars": ["error", { argsIgnorePattern: "^_" }],
+      "@typescript-eslint/no-unused-vars": [
+        "error",
+        { argsIgnorePattern: "^_", varsIgnorePattern: "^_" },
+      ],
     },
   },
   {
