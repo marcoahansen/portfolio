@@ -7,4 +7,4 @@ export const FEATURES = {
 } as const
 
 export type FeatureName = keyof typeof FEATURES
-export type Features = typeof FEATURES
+export type Features = Record<FeatureName, boolean>
