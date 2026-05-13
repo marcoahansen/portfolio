@@ -266,8 +266,10 @@ type ContactForm = {
 
 ## 11. Próximos Passos
 
-1. **Setup do projeto** — Vite + React + TypeScript + Vitest + Tailwind v3 + shadcn/ui
-2. **Primeiros testes** — escrever testes para `filterProjects()` antes de qualquer componente
-3. **M2 — Projetos** — módulo mais rico em regras, começa o TDD de verdade
-4. **M5 — Contato** — validações bem definidas
-5. **Demais módulos** — M4, M3, M1
+1. **Scaffolding** — concluído ✅ (ver `docs/scaffolding-specification.md`)
+2. **M1 — Hero** — presentacional, entrega visual imediata
+3. **M3 — Skills** — simples, só exibição agrupada
+4. **M4 — Experiência** — timeline, poucas regras
+5. **M5 — Contato** — validações bem definidas, fecha o site "funcional"
+6. **Deploy** — publicar no GitHub Pages com CI verde
+7. **M2 — Projetos** — módulo mais rico em regras, TDD com base estável
