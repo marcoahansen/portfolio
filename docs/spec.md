@@ -246,7 +246,15 @@ type ContactForm = {
 
 ---
 
-## 8. Critérios de Aceite Gerais
+## 8. Constraints de Desenvolvimento
+
+- **Idioma do código:** Todo o código, comentários, nomes de variáveis, funções e componentes em inglês
+- **Commits:** Mensagens de commit em inglês (ex: `feat: add project filter logic`)
+- **Artefatos de doc** (`docs/`): podem ser em português — são artefatos de processo, não de código
+
+---
+
+## 10. Critérios de Aceite Gerais
 
 - CA-01: O projeto passa em todos os testes unitários e de componente antes de qualquer merge
 - CA-02: Nenhum componente de UI existe sem contrato de tipo (TypeScript strict)
@@ -256,7 +264,7 @@ type ContactForm = {
 
 ---
 
-## 9. Próximos Passos
+## 11. Próximos Passos
 
 1. **Setup do projeto** — Vite + React + TypeScript + Vitest + Tailwind v3 + shadcn/ui
 2. **Primeiros testes** — escrever testes para `filterProjects()` antes de qualquer componente
