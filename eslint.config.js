@@ -24,7 +24,7 @@ export default tseslint.config(
     languageOptions: {
       ecmaVersion: 2022,
       sourceType: "module",
-      parserOptions: { project: ["./tsconfig.json"] },
+      parserOptions: { project: ["./tsconfig.json", "./tsconfig.node.json"] },
     },
     plugins: {
       react,
@@ -38,6 +38,7 @@ export default tseslint.config(
       ...reactHooks.configs.recommended.rules,
       ...jsxA11y.configs.recommended.rules,
       "@typescript-eslint/consistent-type-imports": "error",
+      "@typescript-eslint/consistent-type-definitions": "off",
       "@typescript-eslint/no-unused-vars": ["error", { argsIgnorePattern: "^_" }],
     },
   },
@@ -46,6 +47,24 @@ export default tseslint.config(
     rules: {
       "react/prop-types": "off",
       "@typescript-eslint/no-explicit-any": "off",
+    },
+  },
+  {
+    files: ["**/*.{js,cjs,mjs}"],
+    ...tseslint.configs.disableTypeChecked,
+  },
+  {
+    files: ["**/*.cjs"],
+    languageOptions: {
+      sourceType: "commonjs",
+      globals: {
+        module: "readonly",
+        require: "readonly",
+        __dirname: "readonly",
+        __filename: "readonly",
+        process: "readonly",
+        exports: "writable",
+      },
     },
   },
   prettier,
