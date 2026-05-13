@@ -1,4 +1,5 @@
 import { z } from "zod"
+import type { Hero } from "@/types/domain"
 
 export const projectCategorySchema = z.enum(["trabalho", "freelance", "open-source", "ensino"])
 
@@ -65,3 +66,36 @@ export const contactFormSchema = z.object({
   subject: z.string().min(3).max(150),
   message: z.string().min(10).max(1000),
 })
+
+export const heroSchema = z.object({
+  fullName: z.string().min(2).max(100),
+  displayName: z.string().min(2).max(60),
+  role: z.string().min(3).max(120),
+  tagline: z.string().min(10).max(200),
+  github: z.object({
+    url: z.string().url().startsWith("https://github.com/"),
+    handle: z.string().min(1),
+  }),
+  linkedin: z.object({
+    url: z.string().url().startsWith("https://www.linkedin.com/"),
+    handle: z.string().min(1),
+  }),
+  cv: z.object({
+    fileName: z.string().regex(/^[a-z0-9-]+\.pdf$/),
+    versionLabel: z.string().regex(/^[a-z]{3}\/\d{4}$/),
+  }),
+  avatar: z.object({
+    src: z.string().startsWith("/"),
+    alt: z.string().min(3),
+  }),
+})
+
+export function validateHero(input: unknown): Hero {
+  const result = heroSchema.safeParse(input)
+  if (!result.success) {
+    const issue = result.error.issues[0]!
+    const path = issue.path.join(".")
+    throw new Error(`Invalid hero.json at ${path}: ${issue.message}`)
+  }
+  return result.data
+}
