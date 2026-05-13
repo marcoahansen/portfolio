@@ -23,6 +23,15 @@
     "e2e:install": "playwright install --with-deps chromium",
     "prepare": "husky"
   },
+  "lint-staged": {
+    "*.{ts,tsx,js,jsx}": [
+      "eslint --fix",
+      "prettier --write"
+    ],
+    "*.{json,md,css,html}": [
+      "prettier --write"
+    ]
+  },
   "dependencies": {
     "@emailjs/browser": "^4.4",
     "@radix-ui/react-slot": "^1.2.4",
