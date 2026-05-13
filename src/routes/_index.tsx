@@ -1,17 +1,21 @@
-export default function Home() {
+import type { Route } from "./+types/_index"
+import heroData from "@/data/hero.json"
+import { Hero } from "@/components/Hero"
+import { validateHero } from "@/lib/validation"
+
+const hero = validateHero(heroData)
+
+export function meta(_args: Route.MetaArgs): Route.MetaDescriptors {
+  return [
+    { title: `${hero.displayName} — ${hero.role}` },
+    { name: "description", content: hero.tagline },
+  ]
+}
+
+export default function HomeRoute() {
   return (
     <main>
-      <h1>Marco Hansen</h1>
-      <p>Frontend Developer & Tech Instructor</p>
-      <section id="contact">
-        <h2>Contato</h2>
-        <form>
-          <label>
-            Email
-            <input type="email" name="email" />
-          </label>
-        </form>
-      </section>
+      <Hero hero={hero} />
     </main>
   )
 }
