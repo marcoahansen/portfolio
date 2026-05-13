@@ -25,66 +25,99 @@ type Props = {
 
 export function Hero({ hero, features = FEATURES }: Props) {
   return (
-    <section className="container mx-auto grid min-h-screen items-center gap-12 px-4 py-16 md:grid-cols-3">
-      <div className="order-2 space-y-6 md:order-1 md:col-span-2">
-        <h1 className="text-4xl font-bold tracking-tight md:text-5xl">{hero.displayName}</h1>
-        <p className="text-xl text-muted-foreground">{hero.role}</p>
-        <p className="text-lg">{hero.tagline}</p>
+    <section className="relative isolate overflow-hidden bg-gradient-to-br from-background via-background to-secondary/40">
+      <div
+        aria-hidden="true"
+        className="pointer-events-none absolute -right-24 -top-32 -z-10 size-[28rem] rounded-full bg-primary/10 blur-3xl"
+      />
+      <div
+        aria-hidden="true"
+        className="pointer-events-none absolute -bottom-32 -left-24 -z-10 size-[24rem] rounded-full bg-accent/40 blur-3xl"
+      />
 
-        <div className="flex flex-wrap gap-3">
-          <Button asChild>
-            <a href={`/cv/${hero.cv.fileName}`} download>
-              Download CV ({hero.cv.versionLabel})
-            </a>
-          </Button>
+      <div className="container mx-auto grid min-h-screen items-center gap-12 px-4 py-16 md:grid-cols-3">
+        <div className="order-2 space-y-6 md:order-1 md:col-span-2">
+          <p className="inline-flex items-center gap-2 rounded-full border border-border bg-background/70 px-3 py-1 text-xs font-medium text-muted-foreground shadow-sm backdrop-blur">
+            <span className="size-1.5 rounded-full bg-emerald-500" aria-hidden="true" />
+            Disponível para projetos e mentorias
+          </p>
+          <h1 className="bg-gradient-to-br from-foreground to-foreground/60 bg-clip-text text-4xl font-bold tracking-tight text-transparent md:text-6xl">
+            {hero.displayName}
+          </h1>
+          <p className="text-xl font-medium text-primary/90 md:text-2xl">{hero.role}</p>
+          <p className="max-w-xl text-lg leading-relaxed text-muted-foreground">{hero.tagline}</p>
 
-          {features.contact && (
-            <Button asChild variant="outline">
-              <a href="/#contact">Falar comigo</a>
+          <div className="flex flex-wrap items-center gap-3 pt-2">
+            <Button asChild size="lg" className="shadow-md transition-shadow hover:shadow-lg">
+              <a href={`/cv/${hero.cv.fileName}`} download>
+                Download CV ({hero.cv.versionLabel})
+              </a>
             </Button>
-          )}
 
-          {features.projects && (
-            <a
-              href="/projects"
-              className="inline-flex items-center text-sm font-medium underline-offset-4 hover:underline"
+            {features.contact && (
+              <Button asChild variant="outline" size="lg">
+                <a href="/#contact">Falar comigo</a>
+              </Button>
+            )}
+
+            {features.projects && (
+              <a
+                href="/projects"
+                className="inline-flex items-center text-sm font-medium text-primary underline-offset-4 hover:underline"
+              >
+                Ver projetos →
+              </a>
+            )}
+          </div>
+
+          <div className="flex gap-2 pt-2">
+            <Button
+              asChild
+              variant="ghost"
+              size="icon"
+              className="rounded-full border border-border/60 hover:border-border"
             >
-              Ver projetos →
-            </a>
-          )}
+              <a
+                href={hero.github.url}
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label={`GitHub: ${hero.github.handle}`}
+              >
+                <GithubIcon />
+              </a>
+            </Button>
+            <Button
+              asChild
+              variant="ghost"
+              size="icon"
+              className="rounded-full border border-border/60 hover:border-border"
+            >
+              <a
+                href={hero.linkedin.url}
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label={`LinkedIn: ${hero.linkedin.handle}`}
+              >
+                <LinkedinIcon />
+              </a>
+            </Button>
+          </div>
         </div>
 
-        <div className="flex gap-2">
-          <Button asChild variant="ghost" size="icon">
-            <a
-              href={hero.github.url}
-              target="_blank"
-              rel="noopener noreferrer"
-              aria-label={`GitHub: ${hero.github.handle}`}
-            >
-              <GithubIcon />
-            </a>
-          </Button>
-          <Button asChild variant="ghost" size="icon">
-            <a
-              href={hero.linkedin.url}
-              target="_blank"
-              rel="noopener noreferrer"
-              aria-label={`LinkedIn: ${hero.linkedin.handle}`}
-            >
-              <LinkedinIcon />
-            </a>
-          </Button>
+        <div className="order-1 flex justify-center md:order-2 md:col-span-1">
+          <div className="relative">
+            <div
+              aria-hidden="true"
+              className="absolute -inset-3 rounded-full bg-gradient-to-br from-primary/30 to-accent/40 blur-xl md:rounded-3xl"
+            />
+            <img
+              src={hero.avatar.src}
+              alt={hero.avatar.alt}
+              className="relative size-40 rounded-full object-cover shadow-2xl ring-4 ring-background md:size-80 md:rounded-2xl"
+              loading="eager"
+            />
+          </div>
         </div>
-      </div>
-
-      <div className="order-1 flex justify-center md:order-2 md:col-span-1">
-        <img
-          src={hero.avatar.src}
-          alt={hero.avatar.alt}
-          className="size-40 rounded-full object-cover md:size-80 md:rounded-2xl"
-          loading="eager"
-        />
       </div>
     </section>
   )
