@@ -17,12 +17,7 @@ export type Project = {
   endDate?: string
 }
 
-export type SkillCategory =
-  | "frontend"
-  | "tools"
-  | "backend"
-  | "practices"
-  | "pedagogical"
+export type SkillCategory = "frontend" | "tools" | "backend" | "practices" | "pedagogical"
 
 export type Skill = {
   name: string

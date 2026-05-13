@@ -1,11 +1,6 @@
 import { z } from "zod"
 
-export const projectCategorySchema = z.enum([
-  "trabalho",
-  "freelance",
-  "open-source",
-  "ensino",
-])
+export const projectCategorySchema = z.enum(["trabalho", "freelance", "open-source", "ensino"])
 
 export const projectStatusSchema = z.enum(["concluido", "em-andamento"])
 
@@ -23,7 +18,10 @@ export const projectSchema = z
     repositoryUrl: z.string().url().optional(),
     demoUrl: z.string().url().optional(),
     startDate: z.string().regex(/^\d{4}-\d{2}-\d{2}$/),
-    endDate: z.string().regex(/^\d{4}-\d{2}-\d{2}$/).optional(),
+    endDate: z
+      .string()
+      .regex(/^\d{4}-\d{2}-\d{2}$/)
+      .optional(),
   })
   .refine((p) => !(p.confidential && p.repositoryUrl), {
     message: "RN-M2-02: confidential project cannot have repositoryUrl",
@@ -51,7 +49,10 @@ export const experienceSchema = z.object({
   company: z.string().min(1),
   role: z.string().min(1),
   startDate: z.string().regex(/^\d{4}-\d{2}-\d{2}$/),
-  endDate: z.string().regex(/^\d{4}-\d{2}-\d{2}$/).optional(),
+  endDate: z
+    .string()
+    .regex(/^\d{4}-\d{2}-\d{2}$/)
+    .optional(),
   description: z.string().min(1),
   stack: z.array(z.string()).default([]),
 })

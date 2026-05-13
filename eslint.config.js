@@ -7,14 +7,7 @@ import prettier from "eslint-config-prettier"
 
 export default tseslint.config(
   {
-    ignores: [
-      "dist",
-      "build",
-      ".react-router",
-      "coverage",
-      "node_modules",
-      "playwright-report",
-    ],
+    ignores: ["dist", "build", ".react-router", "coverage", "node_modules", "playwright-report"],
   },
   js.configs.recommended,
   ...tseslint.configs.recommendedTypeChecked,

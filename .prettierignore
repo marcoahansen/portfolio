@@ -6,3 +6,5 @@ coverage
 playwright-report
 pnpm-lock.yaml
 src/components/ui
+docs
+AGENTS.md

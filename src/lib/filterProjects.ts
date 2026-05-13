@@ -13,8 +13,7 @@ export function filterProjects(
   const cats = filter.categories ?? []
 
   const filtered = projects.filter((p) => {
-    const techOk =
-      techs.length === 0 || techs.some((t) => p.technologies.includes(t))
+    const techOk = techs.length === 0 || techs.some((t) => p.technologies.includes(t))
     const catOk = cats.length === 0 || cats.includes(p.category)
     return techOk && catOk
   })
