@@ -5,7 +5,10 @@
     "moduleResolution": "Bundler",
     "allowSyntheticDefaultImports": true,
     "strict": true,
-    "skipLibCheck": true
+    "skipLibCheck": true,
+    "paths": {
+      "@/*": ["./src/*"]
+    }
   },
   "include": [
     "vite.config.ts",
@@ -13,6 +16,7 @@
     "react-router.config.ts",
     "playwright.config.ts",
     "tailwind.config.js",
-    "postcss.config.cjs"
+    "postcss.config.cjs",
+    "scripts/**/*"
   ]
 }

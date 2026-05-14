@@ -39,3 +39,14 @@ export type ContactForm = {
   subject: string
   message: string
 }
+
+export type Hero = {
+  fullName: string
+  displayName: string
+  role: string
+  tagline: string
+  github: { url: string; handle: string }
+  linkedin: { url: string; handle: string }
+  cv: { fileName: string; versionLabel: string }
+  avatar: { src: string; alt: string }
+}
