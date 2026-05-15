@@ -6,8 +6,8 @@ type Props = { items: EducationData[] }
 
 function EducationCard({ item }: { item: EducationData }) {
   return (
-    <article>
-      <Card className="bg-card/60 backdrop-blur">
+    <article className="h-full">
+      <Card className="flex h-full flex-col bg-card/60 backdrop-blur">
         <CardHeader className="space-y-1 pb-3">
           <p className="text-xs font-medium uppercase tracking-widest text-muted-foreground">
             {formatPeriod(item.startDate, item.endDate)}
@@ -41,9 +41,9 @@ export function Education({ items }: Props) {
         </h2>
       </div>
 
-      <ol className="mt-12 grid gap-6 md:grid-cols-2">
+      <ol className="mt-12 grid auto-rows-fr gap-6 md:grid-cols-2">
         {items.map((item) => (
-          <li key={`${item.institution}-${item.startDate}`}>
+          <li key={`${item.institution}-${item.startDate}`} className="h-full">
             <EducationCard item={item} />
           </li>
         ))}

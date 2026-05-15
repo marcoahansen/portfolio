@@ -7,6 +7,7 @@ import { Hero } from "@/components/Hero"
 import { Skills } from "@/components/Skills"
 import { Experience } from "@/components/Experience"
 import { Education } from "@/components/Education"
+import { Contact } from "@/components/Contact"
 import {
   validateHero,
   validateSkills,
@@ -15,6 +16,7 @@ import {
 } from "@/lib/validation"
 import { sortByRecency } from "@/lib/period"
 import { FEATURES } from "@/lib/features"
+import { sendContactEmail } from "@/lib/contactSubmit"
 
 const hero = validateHero(heroData)
 const skills = validateSkills(skillsData)
@@ -38,6 +40,9 @@ export default function HomeRoute() {
           <Experience experiences={experiences} />
           <Education items={education} />
         </>
+      )}
+      {FEATURES.contact && (
+        <Contact email={hero.email} linkedinUrl={hero.linkedin.url} onSubmit={sendContactEmail} />
       )}
     </main>
   )

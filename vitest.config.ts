@@ -24,6 +24,7 @@ export default defineConfig({
         "src/setupTests.ts",
         "src/types/**",
         "src/lib/cn.ts",
+        "src/lib/contactSubmit.ts",
       ],
       thresholds: {
         lines: 70,

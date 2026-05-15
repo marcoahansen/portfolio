@@ -100,6 +100,7 @@ const validHero = {
   displayName: "Marco Hansen",
   role: "Desenvolvedor Frontend & Instrutor de Tecnologia",
   tagline: "Construo interfaces robustas com TDD e ajudo devs em formação a fazerem o mesmo.",
+  email: "marco@example.com",
   github: { url: "https://github.com/marcohansen", handle: "marcohansen" },
   linkedin: { url: "https://www.linkedin.com/in/marco-hansen/", handle: "marco-hansen" },
   cv: { fileName: "marco-hansen-cv-2026-05.pdf", versionLabel: "mai/2026" },
@@ -174,6 +175,10 @@ describe("heroSchema", () => {
     expect(() =>
       heroSchema.parse({ ...validHero, avatar: { ...validHero.avatar, alt: "ab" } }),
     ).toThrow()
+  })
+
+  it("CT-M1-15: rejects malformed email", () => {
+    expect(() => heroSchema.parse({ ...validHero, email: "marco@" })).toThrow()
   })
 })
 

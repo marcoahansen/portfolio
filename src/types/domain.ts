@@ -53,6 +53,7 @@ export type Hero = {
   displayName: string
   role: string
   tagline: string
+  email: string
   github: { url: string; handle: string }
   linkedin: { url: string; handle: string }
   cv: { fileName: string; versionLabel: string }

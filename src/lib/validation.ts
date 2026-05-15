@@ -74,10 +74,19 @@ export const educationSchema = z.object({
 export const educationListSchema = z.array(educationSchema)
 
 export const contactFormSchema = z.object({
-  name: z.string().min(2).max(100),
-  email: z.string().email(),
-  subject: z.string().min(3).max(150),
-  message: z.string().min(10).max(1000),
+  name: z
+    .string()
+    .min(2, "Nome deve ter ao menos 2 caracteres.")
+    .max(100, "Nome deve ter no máximo 100 caracteres."),
+  email: z.string().email("Informe um e-mail válido."),
+  subject: z
+    .string()
+    .min(3, "Assunto deve ter ao menos 3 caracteres.")
+    .max(150, "Assunto deve ter no máximo 150 caracteres."),
+  message: z
+    .string()
+    .min(10, "Mensagem deve ter ao menos 10 caracteres.")
+    .max(1000, "Mensagem deve ter no máximo 1000 caracteres."),
 })
 
 export const heroSchema = z.object({
@@ -85,6 +94,7 @@ export const heroSchema = z.object({
   displayName: z.string().min(2).max(60),
   role: z.string().min(3).max(120),
   tagline: z.string().min(10).max(200),
+  email: z.string().email(),
   github: z.object({
     url: z.string().url().startsWith("https://github.com/"),
     handle: z.string().min(1),
