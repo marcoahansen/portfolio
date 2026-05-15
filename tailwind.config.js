@@ -14,6 +14,7 @@ export default {
       fontFamily: {
         sans: ['"Geist Variable"', "system-ui", "sans-serif"],
         mono: ['"Geist Mono Variable"', "ui-monospace", "monospace"],
+        display: ['"Asimovian"', '"Geist Variable"', "system-ui", "sans-serif"],
       },
       fontSize: {
         "display-2xl": [

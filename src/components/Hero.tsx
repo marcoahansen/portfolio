@@ -42,7 +42,7 @@ export function Hero({ hero, features = FEATURES }: Props) {
             <span className="size-1.5 rounded-full bg-emerald-500" aria-hidden="true" />
             Disponível para projetos e mentorias
           </p>
-          <h1 className="bg-gradient-to-br from-foreground to-foreground/60 bg-clip-text text-display-xl font-bold tracking-tight text-transparent md:text-display-2xl">
+          <h1 className="bg-gradient-to-br from-foreground to-foreground/60 bg-clip-text font-display text-display-xl font-bold tracking-tight text-transparent md:text-display-2xl">
             {hero.displayName}
           </h1>
           <p className="text-headline-md font-medium text-primary/90 md:text-headline-lg">
