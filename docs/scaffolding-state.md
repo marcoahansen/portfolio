@@ -1,23 +1,23 @@
 # Scaffolding State — Portfolio Marco Hansen
 
-**Versão:** 0.2.0
-**Status:** M1, M3 e M4 entregues; M2 e M5 pendentes
-**Branch base:** `main` (HEAD em `d00c129`)
+**Versão:** 0.3.0
+**Status:** M1, M3, M4 e M5 entregues; apenas M2 pendente
+**Branch base:** `main` (HEAD em `73aeb18`, será avançado ao mergear PR #6 + esta PR)
 **Documentos relacionados:** `docs/spec.md`, `docs/scaffolding-specification.md`, `docs/scaffolding-blueprint.md`, `AGENTS.md`
 
-> Esta é uma **fotografia** do que efetivamente existe no repositório após a execução do `scaffolding-blueprint.md` mais os módulos M1/M3/M4. O blueprint descreve a intenção; este documento descreve o resultado. Toda divergência entre os dois está catalogada na §6.
+> Esta é uma **fotografia** do que efetivamente existe no repositório após a execução do `scaffolding-blueprint.md` mais os módulos M1/M3/M4/M5. O blueprint descreve a intenção; este documento descreve o resultado. Toda divergência entre os dois está catalogada na §6.
 
 ---
 
 ## 1. Resumo executivo
 
-- 39 commits acima do scaffolding (M1, M3, M4 mergeados via PRs #1, #2, #3).
+- 4 módulos de produto entregues (M1 PR #1, M3 PR #2, M4 PR #3, M5 PR #6) + fix de roteamento/deploy (#5) e duas atualizações de doc (#4 e esta).
 - Toolchain pronta: React 19, RR7 framework SPA, TS strict, Vite 6, Tailwind v3, shadcn (5 primitivos), Vitest, Playwright, ESLint flat, Prettier, Husky.
-- Lógica de domínio coberta a 100%: `src/lib/validation.ts`, `src/lib/filterProjects.ts`, `src/lib/period.ts`, `src/lib/withBase.ts`.
-- 97 testes unitários verdes (validation + filterProjects + period + Hero + Skills + Experience + Education).
-- 6 specs Playwright smoke verdes localmente (1 `contact` ainda em `test.skip`).
-- Home `/` renderiza Hero, Skills, Experience e Education sob feature flags em `src/lib/features.ts`.
-- CI/Deploy yml versionados; ainda **não exercitados** (necessitam push + `Settings → Pages`).
+- Lógica de domínio coberta a 100%: `src/lib/validation.ts`, `src/lib/filterProjects.ts`, `src/lib/period.ts`, `src/lib/withBase.ts`. `src/lib/contactSubmit.ts` excluído de cobertura (glue de SDK EmailJS).
+- 112 testes unitários verdes (validation + filterProjects + period + Hero + Skills + Experience + Education + ContactForm + Contact).
+- 7 specs Playwright smoke verdes (`contact` desmarcado de `test.skip`).
+- Home `/` renderiza Hero, Skills, Experience, Education e Contact sob feature flags em `src/lib/features.ts`. Apenas `projects` ainda em `false`.
+- CI verde; deploy GH Pages exercitado em `marcoahansen.github.io/portfolio/` após PR #5.
 - Pre-commit hook ativo: `lint-staged → typecheck → test:run`.
 
 ---
@@ -275,9 +275,9 @@ Espelho de `docs/spec.md §3`:
 | M2 Projetos | ⏳ pendente | `/projects`, `/projects/:id`, filtros | `filterProjects` + `projectSchema` ambos 100%; stubs de rota; `src/data/projects.json` |
 | M3 Skills | ✅ entregue (PR #2) | seção em `/` | `src/components/Skills.tsx`, `src/data/skills.json` |
 | M4 Timeline + Educação | ✅ entregue (PR #3) | seções em `/` | `src/components/Experience.tsx`, `src/components/Education.tsx`, `src/lib/period.ts`, `src/data/experiences.json`, `src/data/education.json` |
-| M5 Contato | ⏳ pendente | `#contact` na home | `contactFormSchema` + EmailJS dep + `.env.example`; spec `e2e/contact.spec.ts` ainda em `test.skip` |
+| M5 Contato | ✅ entregue (PR #6) | `#contact` na home, EmailJS | `src/components/Contact.tsx`, `src/components/ContactForm.tsx`, `src/lib/contactSubmit.ts`, campo `email` em `hero.json` |
 
-Ordem sugerida restante: **M2 → M5** (M1/M3/M4 já fechados na ordem `M1 → M3 → M4` registrada em `1c6165e`).
+Ordem restante: **M2** (único módulo pendente). M1 → M3 → M4 → M5 fechados na ordem `1c6165e`.
 
 Cada módulo segue o ciclo TDD do `AGENTS.md §3`:
 
@@ -308,3 +308,4 @@ Resumo do `AGENTS.md` que afeta todo trabalho subsequente:
 |--------|------|---------|
 | 0.1.0 | 2026-05-13 | Documento inicial cobrindo o estado pós-scaffolding (HEAD `01a46d3`). |
 | 0.2.0 | 2026-05-15 | Refletir entrega de M1 (PR #1), M3 (PR #2) e M4 (PR #3). HEAD `d00c129`. Helpers `period.ts` e `withBase.ts` adicionados; basename alinhado em `/portfolio/` para deploy GH Pages project-page. |
+| 0.3.0 | 2026-05-15 | Refletir entrega de M5 (PR #6) e fix de deploy (PR #5). Adicionados `ContactForm`, `Contact`, `contactSubmit.ts` (excluído de cobertura) e campo `email` em Hero. Mensagens PT-BR em `contactFormSchema`. Restam M2 e a UI flag `projects`. |
