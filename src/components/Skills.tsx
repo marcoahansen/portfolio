@@ -1,5 +1,6 @@
 import { Badge } from "@/components/ui/badge"
 import { Card, CardContent, CardHeader } from "@/components/ui/card"
+import { Section } from "@/components/Section"
 import type { Skill, SkillCategory } from "@/types/domain"
 
 const TECHNICAL_CATEGORIES: { id: SkillCategory; label: string }[] = [
@@ -46,29 +47,17 @@ export function Skills({ skills }: Props) {
   const pedagogicalItems = skills.filter((s) => s.category === PEDAGOGICAL_CATEGORY.id)
 
   return (
-    <section
+    <Section
       id="skills"
-      aria-labelledby="skills-title"
-      className="container mx-auto px-4 py-20 md:py-28"
+      eyebrow="Stack & mentoria"
+      title="Habilidades"
+      subtitle="Stack técnico do dia-a-dia e o que ensino para quem está começando."
     >
-      <div className="mx-auto max-w-3xl space-y-3 text-center">
-        <p className="text-xs font-semibold uppercase tracking-widest text-primary/80">
-          Stack & mentoria
-        </p>
-        <h2 id="skills-title" className="text-3xl font-bold tracking-tight md:text-4xl">
-          Habilidades
-        </h2>
-        <p className="text-muted-foreground">
-          Stack técnico do dia-a-dia e o que ensino para quem está começando.
-        </p>
-      </div>
-
-      <div className="mt-12 grid gap-6 md:grid-cols-2">
+      <div className="grid gap-6 md:grid-cols-2">
         {technicalGroups.map((g) => (
           <CategoryGroup key={g.id} id={g.id} label={g.label} items={g.items} />
         ))}
       </div>
-
       {pedagogicalItems.length > 0 && (
         <div className="mt-6">
           <CategoryGroup
@@ -78,6 +67,6 @@ export function Skills({ skills }: Props) {
           />
         </div>
       )}
-    </section>
+    </Section>
   )
 }
