@@ -7,13 +7,13 @@ export default defineConfig({
   retries: process.env.CI ? 2 : 0,
   reporter: process.env.CI ? "github" : "list",
   use: {
-    baseURL: "http://localhost:5173",
+    baseURL: "http://localhost:5173/portfolio/",
     trace: "on-first-retry",
   },
   projects: [{ name: "chromium", use: { ...devices["Desktop Chrome"] } }],
   webServer: {
     command: "pnpm run dev",
-    url: "http://localhost:5173",
+    url: "http://localhost:5173/portfolio/",
     reuseExistingServer: !process.env.CI,
     timeout: 60_000,
   },

@@ -1,5 +1,5 @@
 import { z } from "zod"
-import type { Hero, Skill } from "@/types/domain"
+import type { Education, Experience, Hero, Skill } from "@/types/domain"
 
 export const projectCategorySchema = z.enum(["trabalho", "freelance", "open-source", "ensino"])
 
@@ -60,6 +60,19 @@ export const experienceSchema = z.object({
 
 export const experienceListSchema = z.array(experienceSchema)
 
+export const educationSchema = z.object({
+  institution: z.string().min(1),
+  degree: z.string().min(1),
+  startDate: z.string().regex(/^\d{4}-\d{2}-\d{2}$/),
+  endDate: z
+    .string()
+    .regex(/^\d{4}-\d{2}-\d{2}$/)
+    .optional(),
+  description: z.string().min(1).optional(),
+})
+
+export const educationListSchema = z.array(educationSchema)
+
 export const contactFormSchema = z.object({
   name: z.string().min(2).max(100),
   email: z.string().email(),
@@ -106,6 +119,26 @@ export function validateSkills(input: unknown): Skill[] {
     const issue = result.error.issues[0]!
     const path = issue.path.join(".")
     throw new Error(`Invalid skills.json at ${path}: ${issue.message}`)
+  }
+  return result.data
+}
+
+export function validateExperiences(input: unknown): Experience[] {
+  const result = experienceListSchema.safeParse(input)
+  if (!result.success) {
+    const issue = result.error.issues[0]!
+    const path = issue.path.join(".")
+    throw new Error(`Invalid experiences.json at ${path}: ${issue.message}`)
+  }
+  return result.data
+}
+
+export function validateEducation(input: unknown): Education[] {
+  const result = educationListSchema.safeParse(input)
+  if (!result.success) {
+    const issue = result.error.issues[0]!
+    const path = issue.path.join(".")
+    throw new Error(`Invalid education.json at ${path}: ${issue.message}`)
   }
   return result.data
 }

@@ -28,9 +28,17 @@ export type Experience = {
   company: string
   role: string
   startDate: string
-  endDate?: string
+  endDate?: string | undefined
   description: string
   stack: string[]
+}
+
+export type Education = {
+  institution: string
+  degree: string
+  startDate: string
+  endDate?: string | undefined
+  description?: string | undefined
 }
 
 export type ContactForm = {

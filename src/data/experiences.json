@@ -1,1 +1,58 @@
-[]
+[
+  {
+    "company": "Venturus",
+    "role": "Analista de Desenvolvimento Frontend",
+    "startDate": "2023-05-01",
+    "description": "Desenvolvimento de projeto React com CI/CD, testes unitários e integração com API Java SpringBoot e banco MySQL. Implementação de formulário dinâmico com drag and drop, design system com shadcn/ui e Tailwind CSS. Foco em SEO, acessibilidade e componentização reutilizável seguindo Clean Code e práticas de UI/UX.",
+    "stack": [
+      "React",
+      "TypeScript",
+      "Tailwind CSS",
+      "shadcn/ui",
+      "Radix",
+      "Ant Design",
+      "Chakra UI",
+      "React Hook Form",
+      "TanStack Query",
+      "Docker",
+      "Azure DevOps",
+      "Git"
+    ]
+  },
+  {
+    "company": "Projeto Confidencial (Freelance)",
+    "role": "Desenvolvedor Frontend",
+    "startDate": "2023-09-01",
+    "endDate": "2025-05-01",
+    "description": "Desenvolvimento em Next.js com integração CI/CD, AWS e API Nest.js. Validação de doações de múltiplos usuários via webhooks em plataforma de arrecadação.",
+    "stack": ["Next.js", "TypeScript", "Chakra UI", "Docker", "GitHub", "AWS"]
+  },
+  {
+    "company": "Senai Firjan Petrópolis",
+    "role": "Instrutor Técnico",
+    "startDate": "2025-06-01",
+    "endDate": "2025-11-01",
+    "description": "Docência em turmas técnicas e de qualificação: Introdução à Ciência da Computação, Lógica de Programação, Frontend Básico e React. Aplicação de PBL, planejamento pedagógico, criação de materiais didáticos e mentoria de alunos para o mercado de trabalho.",
+    "stack": ["React", "JavaScript", "HTML", "CSS", "Didática", "Oratória", "Canva"]
+  },
+  {
+    "company": "Venturus",
+    "role": "Estagiário de Tecnologia da Informação",
+    "startDate": "2022-08-01",
+    "endDate": "2023-05-01",
+    "description": "Execução de pequenos projetos com foco em desenvolvimento frontend web. Assistência em operações diárias de projetos de inovação.",
+    "stack": [
+      "React",
+      "Next.js",
+      "TypeScript",
+      "Styled Components",
+      "Material UI",
+      "Chakra UI",
+      "Tailwind CSS",
+      "Fastify",
+      "PostgreSQL",
+      "Docker",
+      "GitLab"
+    ]
+  }
+]

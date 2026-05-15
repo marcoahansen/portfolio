@@ -7,6 +7,10 @@ import {
   skillSchema,
   skillListSchema,
   validateSkills,
+  experienceSchema,
+  educationSchema,
+  validateExperiences,
+  validateEducation,
 } from "./validation"
 
 const validProject = {
@@ -226,6 +230,96 @@ describe("validateSkills", () => {
   it("CT-M3-07: throws Error with humanized path and message on invalid input", () => {
     expect(() => validateSkills([{ name: "React", category: "design" }])).toThrow(
       /Invalid skills\.json at 0\.category/,
+    )
+  })
+})
+
+const validExperience = {
+  company: "Venturus",
+  role: "Frontend Developer",
+  startDate: "2023-05-01",
+  endDate: "2024-12-01",
+  description: "Worked on React apps for telecom clients.",
+  stack: ["React", "TypeScript"],
+}
+
+describe("experienceSchema", () => {
+  it("CT-M4-01: accepts a valid experience", () => {
+    expect(() => experienceSchema.parse(validExperience)).not.toThrow()
+  })
+
+  it("CT-M4-02: accepts ongoing experience without endDate (RN-M4-01)", () => {
+    const { endDate: _e, ...ongoing } = validExperience
+    expect(() => experienceSchema.parse(ongoing)).not.toThrow()
+  })
+
+  it("CT-M4-03: rejects missing company (RN-M4-03)", () => {
+    const { company: _c, ...rest } = validExperience
+    expect(() => experienceSchema.parse(rest)).toThrow()
+  })
+
+  it("CT-M4-04: rejects missing role (RN-M4-03)", () => {
+    const { role: _r, ...rest } = validExperience
+    expect(() => experienceSchema.parse(rest)).toThrow()
+  })
+
+  it("CT-M4-05: rejects missing startDate (RN-M4-03)", () => {
+    const { startDate: _s, ...rest } = validExperience
+    expect(() => experienceSchema.parse(rest)).toThrow()
+  })
+
+  it("CT-M4-06: rejects malformed startDate", () => {
+    expect(() => experienceSchema.parse({ ...validExperience, startDate: "2023/05" })).toThrow()
+  })
+})
+
+describe("validateExperiences", () => {
+  it("CT-M4-07: returns parsed list", () => {
+    expect(validateExperiences([validExperience])).toEqual([validExperience])
+  })
+
+  it("CT-M4-08: throws humanized error", () => {
+    expect(() => validateExperiences([{ ...validExperience, startDate: "bad" }])).toThrow(
+      /Invalid experiences\.json at 0\.startDate/,
+    )
+  })
+})
+
+const validEducation = {
+  institution: "Universidade X",
+  degree: "Análise e Desenvolvimento de Sistemas",
+  startDate: "2018-02-01",
+  endDate: "2020-12-01",
+  description: "Tecnólogo.",
+}
+
+describe("educationSchema", () => {
+  it("CT-M4-09: accepts a valid education entry", () => {
+    expect(() => educationSchema.parse(validEducation)).not.toThrow()
+  })
+
+  it("CT-M4-10: accepts entry without description", () => {
+    const { description: _d, ...rest } = validEducation
+    expect(() => educationSchema.parse(rest)).not.toThrow()
+  })
+
+  it("CT-M4-11: rejects empty institution", () => {
+    expect(() => educationSchema.parse({ ...validEducation, institution: "" })).toThrow()
+  })
+
+  it("CT-M4-12: rejects empty degree", () => {
+    expect(() => educationSchema.parse({ ...validEducation, degree: "" })).toThrow()
+  })
+})
+
+describe("validateEducation", () => {
+  it("CT-M4-13: returns parsed list", () => {
+    expect(validateEducation([validEducation])).toEqual([validEducation])
+  })
+
+  it("CT-M4-14: throws humanized error", () => {
+    expect(() => validateEducation([{ ...validEducation, institution: "" }])).toThrow(
+      /Invalid education\.json at 0\.institution/,
     )
   })
 })

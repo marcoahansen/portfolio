@@ -1,13 +1,25 @@
 import type { Route } from "./+types/_index"
 import heroData from "@/data/hero.json"
 import skillsData from "@/data/skills.json"
+import experiencesData from "@/data/experiences.json"
+import educationData from "@/data/education.json"
 import { Hero } from "@/components/Hero"
 import { Skills } from "@/components/Skills"
-import { validateHero, validateSkills } from "@/lib/validation"
+import { Experience } from "@/components/Experience"
+import { Education } from "@/components/Education"
+import {
+  validateHero,
+  validateSkills,
+  validateExperiences,
+  validateEducation,
+} from "@/lib/validation"
+import { sortByRecency } from "@/lib/period"
 import { FEATURES } from "@/lib/features"
 
 const hero = validateHero(heroData)
 const skills = validateSkills(skillsData)
+const experiences = sortByRecency(validateExperiences(experiencesData))
+const education = sortByRecency(validateEducation(educationData))
 
 export function meta(_args: Route.MetaArgs): Route.MetaDescriptors {
   return [
@@ -21,6 +33,12 @@ export default function HomeRoute() {
     <main>
       <Hero hero={hero} />
       {FEATURES.skills && <Skills skills={skills} />}
+      {FEATURES.experience && (
+        <>
+          <Experience experiences={experiences} />
+          <Education items={education} />
+        </>
+      )}
     </main>
   )
 }
