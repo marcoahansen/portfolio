@@ -1,6 +1,6 @@
 # FRD — M0: Infraestrutura compartilhada
 
-**Versão:** 0.1.0
+**Versão:** 0.2.0
 **Status:** Draft — pronto para implementação
 **Spec de origem:** `docs/spec.md` (refinamentos a §5 e adição implícita ao §3)
 **Documentos relacionados:** `docs/scaffolding-state.md`, `docs/features/m1-hero/frd-m1-hero.md`, `AGENTS.md`
@@ -19,7 +19,7 @@ O portfolio atual (`main` em `9ea59f0`) entregou M1, M3, M4 e M5 com toolchain e
 4. **Estilo divergente.** Hero refinou o visual (gradientes, blur orbs, escalas ad-hoc) sem que os tokens fossem padronizados. M3/M4 já apresentam drift.
 5. **Movimento ausente.** Apenas `scroll-behavior: smooth` está plumbado. Sem scroll-reveal padronizado, as seções entram em paint final.
 
-M0 fecha as cinco frentes em uma branch coesa antes do M2.
+M0 fecha as cinco frentes em **quatro sub-branches sequenciais** (`feat/m0-visual` → `feat/m0-theme` → `feat/m0-i18n` → `feat/m0-navbar`), cada uma mergeada para `main` antes da próxima começar, encerrando antes do M2.
 
 ---
 
@@ -83,7 +83,7 @@ M0 fecha as cinco frentes em uma branch coesa antes do M2.
 
 ## 3. Decisões fechadas (sessão de brainstorm 2026-05-15)
 
-26 decisões fechadas em 5 rounds. IDs hierárquicos por concern.
+26 decisões fechadas em 5 rounds + 1 derivada do alinhamento com `scaffolding-state.md` (D-BASE-01). IDs hierárquicos por concern.
 
 | # | Decisão | Resolução |
 |---|---------|-----------|
@@ -113,6 +113,7 @@ M0 fecha as cinco frentes em uma branch coesa antes do M2.
 | D-MOT-02 | Escopo | Micro + scroll-reveal (**sem** page transitions) |
 | D-MOT-03 | Reduced motion | `@media (prefers-reduced-motion: reduce)` em `app.css` |
 | D-MOT-04 | Localização do código | `src/lib/motion.tsx` centraliza hook + Reveal + variantes |
+| D-BASE-01 | Basename da app | `basename: "/portfolio/"` em `react-router.config.ts` para casar com subpath GH Pages em `marcohansen.github.io/portfolio` (hoje config aplica `/`, vide `scaffolding-state.md`) |
 
 ---
 
@@ -341,8 +342,8 @@ import { DEFAULT_LOCALE } from "@/i18n"
 
 export function meta() {
   return [
-    { tagName: "link", rel: "canonical", href: `/${DEFAULT_LOCALE}/` },
-    { httpEquiv: "refresh", content: `0; url=/${DEFAULT_LOCALE}/` },
+    { tagName: "link", rel: "canonical", href: `/portfolio/${DEFAULT_LOCALE}/` },
+    { httpEquiv: "refresh", content: `0; url=/portfolio/${DEFAULT_LOCALE}/` },
   ]
 }
 
@@ -386,7 +387,7 @@ export default {
 } satisfies Config
 ```
 
-> Basename mantém o `/portfolio/` atual (state.md §10). URLs públicas finais: `/portfolio/pt/`, `/portfolio/en/projects` etc.
+> Basename muda de `/` (atual em `react-router.config.ts`, vide `scaffolding-state.md`) para `/portfolio/` casando com subpath GH Pages (D-BASE-01). URLs públicas finais: `/portfolio/pt/`, `/portfolio/en/projects` etc. Meta `refresh` e `canonical` em `_root-redirect.tsx` carregam o subpath explicitamente porque saem direto no HTML, não passam pelo resolver do router.
 
 **Locale switcher — `src/components/LocaleToggle.tsx`:**
 
@@ -1176,7 +1177,18 @@ Atualizar specs existentes (`projects-list.spec.ts`, `project-detail.spec.ts`, `
 
 ## 11. Ordem de implementação (TDD onde aplicável)
 
-Branch única: `feat/m0-infra`. Estimativa: 25–30 commits, agrupados por concern. Pre-commit hook deve passar em cada commit (lint-staged → typecheck → test:run).
+**Quatro sub-branches sequenciais**, cada uma mergeada para `main` antes da próxima começar:
+
+| Ordem | Branch | Conteúdo |
+|-------|--------|----------|
+| 1 | `feat/m0-visual` | Fases A + B (tokens visuais, fontes, paleta, `<Section>`, Motion, retrofit M1/M3/M4/M5) |
+| 2 | `feat/m0-theme` | Fase C (`ThemeProvider`, anti-FOUC, `ThemeToggle`) |
+| 3 | `feat/m0-i18n` | Fase D (i18next, split de dados por locale, rotas com `:lang`, `LocaleToggle`, `check-i18n`, basename `/portfolio/`) |
+| 4 | `feat/m0-navbar` | Fase E (Sheet, SkipLink, Brand, Navbar, MobileMenu, wiring em `root.tsx`) |
+
+Fase F (E2E + docs) é distribuída entre as sub-branches: cada uma fecha com os specs E2E relevantes ao seu concern e doc sync local. O update final em `docs/scaffolding-state.md` registrando M0 entregue acontece no merge da última sub-branch.
+
+Estimativa total: 25–30 commits agrupados por concern. Pre-commit hook deve passar em cada commit (lint-staged → typecheck → test:run).
 
 ### Fase A — Estilo visual (sem mudar comportamento de rotas)
 
@@ -1224,19 +1236,50 @@ Branch única: `feat/m0-infra`. Estimativa: 25–30 commits, agrupados por conce
 28. `feat(nav): add MobileMenu via Sheet` — drawer para < md.
 29. `feat(root): mount Navbar and SkipLink in root.tsx`.
 
-### Fase F — Fechamento
+### Fase F — Fechamento (distribuída entre sub-branches)
 
-30. `test(e2e): add m0-infra smoke specs` — `e2e/m0-infra.spec.ts` + atualiza specs existentes para `/pt/...`.
-31. `docs(spec): remove i18n from out-of-scope; reference M0 FRD`.
-32. `docs(state): record M0 delivery` — atualiza `scaffolding-state.md`.
+- **F.1 — em `feat/m0-visual`**: atualiza testes RTL/unitários afetados pelos novos tokens. Sem mudança em E2E — rotas inalteradas nesta sub-branch.
+- **F.2 — em `feat/m0-theme`**: subset de `e2e/m0-infra.spec.ts` cobrindo ThemeToggle + ausência de FOUC.
+- **F.3 — em `feat/m0-i18n`**: migra specs existentes (`home`, `projects-list`, `project-detail`, `contact`) para baseURL `/pt/`; adiciona LocaleToggle smoke; `docs(spec): remove i18n from out-of-scope; reference M0 FRD`.
+- **F.4 — em `feat/m0-navbar`**: completa `e2e/m0-infra.spec.ts` com navbar + skip-link + mobile sheet; `docs(state): record M0 delivery`.
 
 > Cada commit roda pre-commit hook completo. Falha em qualquer etapa exige correção antes de seguir.
 
-### Merge
+### 11.1 Merge checklist por sub-branch
 
-- Branch `feat/m0-infra` → `main` via `--ff-only` ou squash conforme política das branches anteriores.
-- CI deve passar (lint + typecheck + test + build com novos prebuild guards + e2e).
-- Deploy verifica `/portfolio/pt/`, `/portfolio/en/`, `/portfolio/pt/projects` no GH Pages.
+Cada sub-branch entra em `main` via `--ff-only` ou squash, e só após sua checklist passar. A próxima sub-branch parte do `main` atualizado.
+
+**`feat/m0-visual` → `main`:**
+
+- [ ] `pnpm run lint`, `pnpm run typecheck`, `pnpm test:run` verdes
+- [ ] Comparação visual manual (Hero, Skills, Experience, Education, Contact) antes/depois
+- [ ] Contraste WCAG AA validado em modo claro e escuro para `primary`, `foreground`, `muted-foreground`
+- [ ] `pnpm run build` sem erros (prebuild guard de assets continua passando)
+
+**`feat/m0-theme` → `main`:**
+
+- [ ] Sem FOUC na primeira carga com tema escuro salvo (validado manualmente em browser real)
+- [ ] `prefers-color-scheme` respeitado apenas na primeira visita; ignorado após primeiro clique
+- [ ] `localStorage["mh-theme"]` persiste após reload
+- [ ] Testes unitários de `useTheme` + componentes verdes; subset de `e2e/m0-infra.spec.ts` para ThemeToggle passa
+
+**`feat/m0-i18n` → `main`:**
+
+- [ ] `pnpm run check:i18n` passa (rodando dentro de `prebuild`)
+- [ ] `basename: "/portfolio/"` aplicado em `react-router.config.ts` (D-BASE-01)
+- [ ] `/portfolio/` redireciona para `/portfolio/pt/` em build estático
+- [ ] `/portfolio/pt/projects` e `/portfolio/en/projects` prerenderizam
+- [ ] Grep por strings PT/EN hardcoded em componentes user-facing retorna 0 ocorrências
+- [ ] E2E `home`, `projects-list`, `project-detail`, `contact` migradas para `/pt/...` e verdes
+
+**`feat/m0-navbar` → `main`:**
+
+- [ ] Skip-link foca em `<main>` em todas as rotas
+- [ ] Navbar transparente → blur+border ao rolar (`scrollY > 8`)
+- [ ] Sheet abre/fecha em mobile com Escape e clique fora
+- [ ] Scrollspy destaca a seção em viewport central
+- [ ] `docs/scaffolding-state.md` registra M0 entregue
+- [ ] CI completo verde; deploy GH Pages valida `/portfolio/pt/`, `/portfolio/en/`, `/portfolio/pt/projects`
 
 ---
 
@@ -1259,3 +1302,4 @@ Branch única: `feat/m0-infra`. Estimativa: 25–30 commits, agrupados por conce
 | Versão | Data | Mudança |
 |--------|------|---------|
 | 0.1.0 | 2026-05-15 | FRD inicial. Derivado de sessão de brainstorm de 5 rounds (navbar, tema, i18n, visual, animações) com 26 decisões fechadas. |
+| 0.2.0 | 2026-05-15 | Split de implementação em 4 sub-branches sequenciais (`feat/m0-visual` → `theme` → `i18n` → `navbar`) com merge checklist por sub-branch (§11.1). D-BASE-01 documenta `basename: "/portfolio/"` alinhando com subpath GH Pages. URLs em `_root-redirect.tsx` (canonical + meta refresh) carregam `/portfolio/` explícito. |
