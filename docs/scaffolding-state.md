@@ -1,21 +1,22 @@
 # Scaffolding State — Portfolio Marco Hansen
 
-**Versão:** 0.1.0
-**Status:** Scaffolding concluído — pronto para módulos M1..M5
-**Branch base:** `main` (HEAD em `01a46d3`)
+**Versão:** 0.2.0
+**Status:** M1, M3 e M4 entregues; M2 e M5 pendentes
+**Branch base:** `main` (HEAD em `d00c129`)
 **Documentos relacionados:** `docs/spec.md`, `docs/scaffolding-specification.md`, `docs/scaffolding-blueprint.md`, `AGENTS.md`
 
-> Esta é uma **fotografia** do que efetivamente existe no repositório após a execução do `scaffolding-blueprint.md`. O blueprint descreve a intenção; este documento descreve o resultado. Toda divergência entre os dois está catalogada na §6.
+> Esta é uma **fotografia** do que efetivamente existe no repositório após a execução do `scaffolding-blueprint.md` mais os módulos M1/M3/M4. O blueprint descreve a intenção; este documento descreve o resultado. Toda divergência entre os dois está catalogada na §6.
 
 ---
 
 ## 1. Resumo executivo
 
-- 30 commits em 11 branches lógicas mergeadas em `main` via fast-forward.
+- 39 commits acima do scaffolding (M1, M3, M4 mergeados via PRs #1, #2, #3).
 - Toolchain pronta: React 19, RR7 framework SPA, TS strict, Vite 6, Tailwind v3, shadcn (5 primitivos), Vitest, Playwright, ESLint flat, Prettier, Husky.
-- Lógica de domínio coberta a 100%: `src/lib/validation.ts` e `src/lib/filterProjects.ts`.
-- 26 testes unitários verdes (12 validation + 14 filterProjects, sendo 14 um extra para fechar a última branch do `??` no sort).
-- 4 specs Playwright smoke verdes localmente.
+- Lógica de domínio coberta a 100%: `src/lib/validation.ts`, `src/lib/filterProjects.ts`, `src/lib/period.ts`, `src/lib/withBase.ts`.
+- 97 testes unitários verdes (validation + filterProjects + period + Hero + Skills + Experience + Education).
+- 6 specs Playwright smoke verdes localmente (1 `contact` ainda em `test.skip`).
+- Home `/` renderiza Hero, Skills, Experience e Education sob feature flags em `src/lib/features.ts`.
 - CI/Deploy yml versionados; ainda **não exercitados** (necessitam push + `Settings → Pages`).
 - Pre-commit hook ativo: `lint-staged → typecheck → test:run`.
 
@@ -268,15 +269,15 @@ Excluídos (por design): `src/routes/**`, `src/routes.ts`, `src/root.tsx`, `src/
 
 Espelho de `docs/spec.md §3`:
 
-| Módulo | Escopo | Pré-requisitos atendidos pelo scaffolding |
-|--------|--------|--------------------------------------------|
-| M1 Hero + CV | `/` hero, CTA download CV | `src/routes/_index.tsx` stub; `public/cv/` pronto |
-| M2 Projetos | `/projects`, `/projects/:id`, filtros | `filterProjects` + `projectSchema` ambos 100%; stubs de rota; `src/data/projects.json` |
-| M3 Skills | seção em `/` | `skillSchema`; `src/data/skills.json` |
-| M4 Timeline | seção em `/` | `experienceSchema`; `src/data/experiences.json` |
-| M5 Contato | `#contact` na home | `contactFormSchema` + EmailJS dep + `.env.example` |
+| Módulo | Status | Escopo | Onde está |
+|--------|--------|--------|-----------|
+| M1 Hero + CV | ✅ entregue (PR #1) | `/` hero, CTA download CV, socials | `src/components/Hero.tsx`, `src/data/hero.json`, `public/cv/`, `public/avatar.webp` |
+| M2 Projetos | ⏳ pendente | `/projects`, `/projects/:id`, filtros | `filterProjects` + `projectSchema` ambos 100%; stubs de rota; `src/data/projects.json` |
+| M3 Skills | ✅ entregue (PR #2) | seção em `/` | `src/components/Skills.tsx`, `src/data/skills.json` |
+| M4 Timeline + Educação | ✅ entregue (PR #3) | seções em `/` | `src/components/Experience.tsx`, `src/components/Education.tsx`, `src/lib/period.ts`, `src/data/experiences.json`, `src/data/education.json` |
+| M5 Contato | ⏳ pendente | `#contact` na home | `contactFormSchema` + EmailJS dep + `.env.example`; spec `e2e/contact.spec.ts` ainda em `test.skip` |
 
-Ordem sugerida de implementação: **M1 → M3 → M4 → M2 → M5** (alinhada à reordenação registrada em `1c6165e`).
+Ordem sugerida restante: **M2 → M5** (M1/M3/M4 já fechados na ordem `M1 → M3 → M4` registrada em `1c6165e`).
 
 Cada módulo segue o ciclo TDD do `AGENTS.md §3`:
 
@@ -306,3 +307,4 @@ Resumo do `AGENTS.md` que afeta todo trabalho subsequente:
 | Versão | Data | Mudança |
 |--------|------|---------|
 | 0.1.0 | 2026-05-13 | Documento inicial cobrindo o estado pós-scaffolding (HEAD `01a46d3`). |
+| 0.2.0 | 2026-05-15 | Refletir entrega de M1 (PR #1), M3 (PR #2) e M4 (PR #3). HEAD `d00c129`. Helpers `period.ts` e `withBase.ts` adicionados; basename alinhado em `/portfolio/` para deploy GH Pages project-page. |
