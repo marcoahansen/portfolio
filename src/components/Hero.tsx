@@ -1,5 +1,6 @@
 import { Button } from "@/components/ui/button"
 import { FEATURES, type Features } from "@/lib/features"
+import { withBase } from "@/lib/withBase"
 import type { Hero as HeroData } from "@/types/domain"
 
 function GithubIcon() {
@@ -49,20 +50,20 @@ export function Hero({ hero, features = FEATURES }: Props) {
 
           <div className="flex flex-wrap items-center gap-3 pt-2">
             <Button asChild size="lg" className="shadow-md transition-shadow hover:shadow-lg">
-              <a href={`/cv/${hero.cv.fileName}`} download>
+              <a href={withBase(`/cv/${hero.cv.fileName}`)} download>
                 Download CV ({hero.cv.versionLabel})
               </a>
             </Button>
 
             {features.contact && (
               <Button asChild variant="outline" size="lg">
-                <a href="/#contact">Falar comigo</a>
+                <a href={withBase("/#contact")}>Falar comigo</a>
               </Button>
             )}
 
             {features.projects && (
               <a
-                href="/projects"
+                href={withBase("/projects")}
                 className="inline-flex items-center text-sm font-medium text-primary underline-offset-4 hover:underline"
               >
                 Ver projetos →
@@ -111,7 +112,7 @@ export function Hero({ hero, features = FEATURES }: Props) {
               className="absolute -inset-3 rounded-full bg-gradient-to-br from-primary/30 to-accent/40 blur-xl md:rounded-3xl"
             />
             <img
-              src={hero.avatar.src}
+              src={withBase(hero.avatar.src)}
               alt={hero.avatar.alt}
               className="relative size-40 rounded-full object-cover shadow-2xl ring-4 ring-background md:size-80 md:rounded-2xl"
               loading="eager"

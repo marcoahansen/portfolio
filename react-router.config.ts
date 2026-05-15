@@ -4,5 +4,5 @@ export default {
   appDirectory: "src",
   ssr: false,
   prerender: ["/", "/projects"],
-  basename: "/",
+  basename: "/portfolio/",
 } satisfies Config
