@@ -7,8 +7,8 @@ type Props = { experiences: ExperienceData[] }
 
 function ExperienceCard({ item }: { item: ExperienceData }) {
   return (
-    <article>
-      <Card className="bg-card/60 backdrop-blur">
+    <article className="h-full">
+      <Card className="flex h-full flex-col bg-card/60 backdrop-blur">
         <CardHeader className="space-y-1 pb-3">
           <p className="text-xs font-medium uppercase tracking-widest text-muted-foreground">
             {formatPeriod(item.startDate, item.endDate)}
@@ -16,10 +16,10 @@ function ExperienceCard({ item }: { item: ExperienceData }) {
           <h3 className="text-lg font-semibold tracking-tight">{item.role}</h3>
           <p className="text-sm font-medium text-primary/90">{item.company}</p>
         </CardHeader>
-        <CardContent className="space-y-4">
+        <CardContent className="flex flex-1 flex-col gap-4">
           <p className="text-sm leading-relaxed text-muted-foreground">{item.description}</p>
           {item.stack.length > 0 && (
-            <ul className="flex flex-wrap gap-1.5">
+            <ul className="mt-auto flex flex-wrap gap-1.5">
               {item.stack.map((tech) => (
                 <li key={tech}>
                   <Badge variant="secondary" className="text-xs font-medium">
@@ -53,9 +53,9 @@ export function Experience({ experiences }: Props) {
         </h2>
       </div>
 
-      <ol className="mt-12 grid gap-6 md:grid-cols-2">
+      <ol className="mt-12 grid auto-rows-fr gap-6 md:grid-cols-2">
         {experiences.map((item) => (
-          <li key={`${item.company}-${item.startDate}`}>
+          <li key={`${item.company}-${item.startDate}`} className="h-full">
             <ExperienceCard item={item} />
           </li>
         ))}
