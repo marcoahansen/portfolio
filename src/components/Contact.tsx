@@ -1,4 +1,5 @@
 import { ContactForm } from "@/components/ContactForm"
+import { Section } from "@/components/Section"
 import type { ContactForm as ContactFormData } from "@/types/domain"
 
 type Props = {
@@ -9,26 +10,14 @@ type Props = {
 
 export function Contact({ email, linkedinUrl, onSubmit }: Props) {
   return (
-    <section
+    <Section
       id="contact"
-      aria-labelledby="contact-title"
-      className="container mx-auto px-4 py-20 md:py-28"
+      eyebrow="Fale comigo"
+      title="Contato"
+      subtitle="Tem um projeto, vaga ou conversa técnica em mente? Envie uma mensagem abaixo ou use os canais alternativos."
     >
-      <div className="mx-auto max-w-3xl space-y-3 text-center">
-        <p className="text-xs font-semibold uppercase tracking-widest text-primary/80">
-          Fale comigo
-        </p>
-        <h2 id="contact-title" className="text-3xl font-bold tracking-tight md:text-4xl">
-          Contato
-        </h2>
-        <p className="text-muted-foreground">
-          Tem um projeto, vaga ou conversa técnica em mente? Envie uma mensagem abaixo ou use os
-          canais alternativos.
-        </p>
-      </div>
-
-      <div className="mx-auto mt-10 max-w-3xl space-y-8">
-        <ul className="flex flex-wrap items-center justify-center gap-x-6 gap-y-2 text-sm">
+      <div className="mx-auto max-w-3xl space-y-8">
+        <ul className="flex flex-wrap items-center justify-center gap-x-6 gap-y-2 text-body-sm">
           <li>
             <a
               href={`mailto:${email}`}
@@ -53,6 +42,6 @@ export function Contact({ email, linkedinUrl, onSubmit }: Props) {
           <ContactForm onSubmit={onSubmit} />
         </div>
       </div>
-    </section>
+    </Section>
   )
 }

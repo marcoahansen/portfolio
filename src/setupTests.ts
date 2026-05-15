@@ -13,6 +13,51 @@ declare module "vitest" {
 
 expect.extend(matchers)
 
+class MockIntersectionObserver implements IntersectionObserver {
+  readonly root: Element | Document | null = null
+  readonly rootMargin: string = ""
+  readonly thresholds: readonly number[] = []
+  readonly callback: IntersectionObserverCallback
+  readonly elements = new Set<Element>()
+
+  constructor(callback: IntersectionObserverCallback) {
+    this.callback = callback
+    mockObservers.push(this)
+  }
+
+  observe(el: Element) {
+    this.elements.add(el)
+  }
+  unobserve(el: Element) {
+    this.elements.delete(el)
+  }
+  disconnect() {
+    this.elements.clear()
+  }
+  takeRecords(): IntersectionObserverEntry[] {
+    return []
+  }
+
+  trigger(intersecting: boolean) {
+    const entries = [...this.elements].map((target) => ({
+      target,
+      isIntersecting: intersecting,
+      intersectionRatio: intersecting ? 1 : 0,
+      boundingClientRect: target.getBoundingClientRect(),
+      intersectionRect: target.getBoundingClientRect(),
+      rootBounds: null,
+      time: Date.now(),
+    }))
+    this.callback(entries, this)
+  }
+}
+
+export const mockObservers: MockIntersectionObserver[] = []
+;(
+  globalThis as unknown as { IntersectionObserver: typeof IntersectionObserver }
+).IntersectionObserver = MockIntersectionObserver
+
 afterEach(() => {
+  mockObservers.length = 0
   cleanup()
 })
