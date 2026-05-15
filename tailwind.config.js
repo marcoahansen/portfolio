@@ -15,6 +15,26 @@ export default {
         sans: ['"Geist Variable"', "system-ui", "sans-serif"],
         mono: ['"Geist Mono Variable"', "ui-monospace", "monospace"],
       },
+      fontSize: {
+        "display-2xl": [
+          "clamp(2.75rem, 6vw, 5rem)",
+          { lineHeight: "1.05", letterSpacing: "-0.03em" },
+        ],
+        "display-xl": [
+          "clamp(2.25rem, 5vw, 4rem)",
+          { lineHeight: "1.1", letterSpacing: "-0.025em" },
+        ],
+        "display-lg": [
+          "clamp(1.875rem, 4vw, 3rem)",
+          { lineHeight: "1.15", letterSpacing: "-0.02em" },
+        ],
+        "headline-lg": ["1.875rem", { lineHeight: "1.25" }],
+        "headline-md": ["1.5rem", { lineHeight: "1.3" }],
+        "headline-sm": ["1.25rem", { lineHeight: "1.4" }],
+        "body-lg": ["1.125rem", { lineHeight: "1.65" }],
+        "body-md": ["1rem", { lineHeight: "1.6" }],
+        "body-sm": ["0.875rem", { lineHeight: "1.5" }],
+      },
       colors: {
         border: "hsl(var(--border))",
         input: "hsl(var(--input))",
