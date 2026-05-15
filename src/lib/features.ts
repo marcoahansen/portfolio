@@ -3,7 +3,7 @@ export const FEATURES = {
   skills: true,
   experience: true,
   projects: false,
-  contact: false,
+  contact: true,
 } as const
 
 export type FeatureName = keyof typeof FEATURES
