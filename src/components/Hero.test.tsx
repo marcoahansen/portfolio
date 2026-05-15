@@ -10,6 +10,7 @@ const hero: HeroData = {
   displayName: "Marco Hansen",
   role: "Frontend & Instrutor",
   tagline: "Tagline de teste com tamanho suficiente.",
+  email: "marco@example.com",
   github: { url: "https://github.com/marcohansen", handle: "marcohansen" },
   linkedin: { url: "https://www.linkedin.com/in/marco-hansen/", handle: "marco-hansen" },
   cv: { fileName: "cv-2026-05.pdf", versionLabel: "mai/2026" },

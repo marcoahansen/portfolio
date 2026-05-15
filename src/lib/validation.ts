@@ -85,6 +85,7 @@ export const heroSchema = z.object({
   displayName: z.string().min(2).max(60),
   role: z.string().min(3).max(120),
   tagline: z.string().min(10).max(200),
+  email: z.string().email(),
   github: z.object({
     url: z.string().url().startsWith("https://github.com/"),
     handle: z.string().min(1),
