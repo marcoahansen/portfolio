@@ -33,6 +33,14 @@ export type Experience = {
   stack: string[]
 }
 
+export type Education = {
+  institution: string
+  degree: string
+  startDate: string
+  endDate?: string
+  description?: string
+}
+
 export type ContactForm = {
   name: string
   email: string
