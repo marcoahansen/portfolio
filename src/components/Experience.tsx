@@ -11,7 +11,7 @@ function ExperienceCard({ item }: { item: ExperienceData }) {
     <article className="h-full">
       <Card className="flex h-full flex-col bg-card/60 backdrop-blur">
         <CardHeader className="space-y-1 pb-3">
-          <p className="text-xs font-medium uppercase tracking-widest text-muted-foreground">
+          <p className="font-mono text-xs font-medium uppercase tracking-widest text-muted-foreground">
             {formatPeriod(item.startDate, item.endDate)}
           </p>
           <h3 className="text-lg font-semibold tracking-tight">{item.role}</h3>
@@ -23,7 +23,7 @@ function ExperienceCard({ item }: { item: ExperienceData }) {
             <ul className="mt-auto flex flex-wrap gap-1.5">
               {item.stack.map((tech) => (
                 <li key={tech}>
-                  <Badge variant="secondary" className="text-xs font-medium">
+                  <Badge variant="secondary" className="font-mono text-xs font-medium">
                     {tech}
                   </Badge>
                 </li>

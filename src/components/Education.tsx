@@ -10,7 +10,7 @@ function EducationCard({ item }: { item: EducationData }) {
     <article className="h-full">
       <Card className="flex h-full flex-col bg-card/60 backdrop-blur">
         <CardHeader className="space-y-1 pb-3">
-          <p className="text-xs font-medium uppercase tracking-widest text-muted-foreground">
+          <p className="font-mono text-xs font-medium uppercase tracking-widest text-muted-foreground">
             {formatPeriod(item.startDate, item.endDate)}
           </p>
           <h3 className="text-lg font-semibold tracking-tight">{item.degree}</h3>

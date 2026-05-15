@@ -55,7 +55,7 @@ export function Hero({ hero, features = FEATURES }: Props) {
           <div className="flex flex-wrap items-center gap-3 pt-2">
             <Button asChild size="lg" className="shadow-md transition-shadow hover:shadow-lg">
               <a href={withBase(`/cv/${hero.cv.fileName}`)} download>
-                Download CV ({hero.cv.versionLabel})
+                Download CV (<span className="font-mono">{hero.cv.versionLabel}</span>)
               </a>
             </Button>
 

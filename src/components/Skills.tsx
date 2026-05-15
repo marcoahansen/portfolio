@@ -27,7 +27,7 @@ function CategoryGroup({ id, label, items }: { id: string; label: string; items:
         <ul className="flex flex-wrap gap-2">
           {items.map((s) => (
             <li key={s.name}>
-              <Badge variant="secondary" className="text-sm font-medium">
+              <Badge variant="secondary" className="font-mono text-sm font-medium">
                 {s.name}
               </Badge>
             </li>
