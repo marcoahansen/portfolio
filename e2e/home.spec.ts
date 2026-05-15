@@ -21,3 +21,19 @@ test("home renders skills section with category groups", async ({ page }) => {
   await expect(page.getByRole("group", { name: /frontend/i })).toBeVisible()
   await expect(page.getByRole("group", { name: /pedagóg/i })).toBeVisible()
 })
+
+test("home renders experience timeline with ongoing entry on top", async ({ page }) => {
+  await page.goto("")
+
+  await expect(page.getByRole("heading", { level: 2, name: /experiência/i })).toBeVisible()
+
+  const articles = page.locator("section#experience article")
+  await expect(articles.first()).toContainText(/Presente/)
+})
+
+test("home renders education section separate from experience", async ({ page }) => {
+  await page.goto("")
+
+  await expect(page.getByRole("heading", { level: 2, name: /educação/i })).toBeVisible()
+  await expect(page.locator("section#education article").first()).toBeVisible()
+})
