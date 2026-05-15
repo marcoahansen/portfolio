@@ -14,6 +14,9 @@ type Props = {
 
 const EMPTY: ContactFormData = { name: "", email: "", subject: "", message: "" }
 
+const INVALID_STYLES =
+  "aria-[invalid=true]:border-destructive aria-[invalid=true]:focus-visible:ring-destructive"
+
 export function ContactForm({ onSubmit }: Props) {
   const [values, setValues] = useState<ContactFormData>(EMPTY)
   const [errors, setErrors] = useState<FieldErrors>({})
@@ -75,6 +78,7 @@ export function ContactForm({ onSubmit }: Props) {
             aria-describedby={errors.name ? `${nameId}-err` : undefined}
             disabled={sending}
             autoComplete="name"
+            className={INVALID_STYLES}
           />
           {errors.name && (
             <p id={`${nameId}-err`} className="text-xs text-destructive">
@@ -96,6 +100,7 @@ export function ContactForm({ onSubmit }: Props) {
             aria-describedby={errors.email ? `${emailId}-err` : undefined}
             disabled={sending}
             autoComplete="email"
+            className={INVALID_STYLES}
           />
           {errors.email && (
             <p id={`${emailId}-err`} className="text-xs text-destructive">
@@ -116,6 +121,7 @@ export function ContactForm({ onSubmit }: Props) {
           aria-invalid={errors.subject ? "true" : "false"}
           aria-describedby={errors.subject ? `${subjectId}-err` : undefined}
           disabled={sending}
+          className={INVALID_STYLES}
         />
         {errors.subject && (
           <p id={`${subjectId}-err`} className="text-xs text-destructive">
@@ -136,6 +142,7 @@ export function ContactForm({ onSubmit }: Props) {
           aria-invalid={errors.message ? "true" : "false"}
           aria-describedby={errors.message ? `${messageId}-err` : undefined}
           disabled={sending}
+          className={INVALID_STYLES}
         />
         {errors.message && (
           <p id={`${messageId}-err`} className="text-xs text-destructive">
