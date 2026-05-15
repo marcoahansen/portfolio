@@ -11,6 +11,10 @@ export default {
       screens: { "2xl": "1400px" },
     },
     extend: {
+      fontFamily: {
+        sans: ['"Geist Variable"', "system-ui", "sans-serif"],
+        mono: ['"Geist Mono Variable"', "ui-monospace", "monospace"],
+      },
       colors: {
         border: "hsl(var(--border))",
         input: "hsl(var(--input))",
