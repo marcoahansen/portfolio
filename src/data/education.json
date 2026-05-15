@@ -1,15 +1,9 @@
 [
   {
-    "institution": "Cubos Academy",
-    "degree": "Bootcamp Full-Stack Web",
-    "startDate": "2021-03-01",
-    "endDate": "2021-12-01",
-    "description": "Imersão em JavaScript moderno, React, Node.js e PostgreSQL."
-  },
-  {
-    "institution": "Universidade Federal",
-    "degree": "Tecnólogo em Análise e Desenvolvimento de Sistemas",
-    "startDate": "2018-02-01",
-    "endDate": "2020-12-01"
+    "institution": "FAETERJ Petrópolis",
+    "degree": "Tecnólogo em Tecnologia da Informação e da Comunicação",
+    "startDate": "2018-01-01",
+    "endDate": "2024-12-01",
+    "description": "Curso Superior em Tecnologia da Informação e da Comunicação."
   }
 ]
