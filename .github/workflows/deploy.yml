@@ -30,6 +30,10 @@ jobs:
           VITE_EMAILJS_SERVICE_ID: ${{ secrets.VITE_EMAILJS_SERVICE_ID }}
           VITE_EMAILJS_TEMPLATE_ID: ${{ secrets.VITE_EMAILJS_TEMPLATE_ID }}
           VITE_EMAILJS_PUBLIC_KEY: ${{ secrets.VITE_EMAILJS_PUBLIC_KEY }}
+      - name: Flatten prerender output
+        run: |
+          mv build/client/portfolio/* build/client/
+          rmdir build/client/portfolio
       - name: Copy 404 fallback
         run: cp build/client/index.html build/client/404.html
       - uses: actions/upload-pages-artifact@v3
