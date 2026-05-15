@@ -75,3 +75,44 @@
     @apply bg-background text-foreground;
   }
 }
+
+@layer utilities {
+  @keyframes mh-fade-in-up {
+    from {
+      opacity: 0;
+      transform: translate3d(0, 16px, 0);
+    }
+    to {
+      opacity: 1;
+      transform: translate3d(0, 0, 0);
+    }
+  }
+  @keyframes mh-fade-in {
+    from {
+      opacity: 0;
+    }
+    to {
+      opacity: 1;
+    }
+  }
+  .motion-fade-in-up {
+    animation: mh-fade-in-up 600ms cubic-bezier(0.16, 1, 0.3, 1) both;
+  }
+  .motion-fade-in {
+    animation: mh-fade-in 500ms ease-out both;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .motion-fade-in-up,
+  .motion-fade-in {
+    animation: none !important;
+    opacity: 1 !important;
+    transform: none !important;
+  }
+  * {
+    transition-duration: 0.01ms !important;
+    animation-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
