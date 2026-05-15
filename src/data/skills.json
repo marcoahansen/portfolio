@@ -1,1 +1,25 @@
-[]
+[
+  { "name": "React", "category": "frontend" },
+  { "name": "TypeScript", "category": "frontend" },
+  { "name": "React Router v7", "category": "frontend" },
+  { "name": "Tailwind CSS", "category": "frontend" },
+  { "name": "shadcn/ui", "category": "frontend" },
+  { "name": "HTML semântico & a11y (WCAG AA)", "category": "frontend" },
+  { "name": "Vite", "category": "tools" },
+  { "name": "Vitest + Testing Library", "category": "tools" },
+  { "name": "Playwright", "category": "tools" },
+  { "name": "ESLint + Prettier", "category": "tools" },
+  { "name": "pnpm", "category": "tools" },
+  { "name": "GitHub Actions", "category": "tools" },
+  { "name": "Node.js", "category": "backend" },
+  { "name": "REST APIs", "category": "backend" },
+  { "name": "Zod (validação de borda)", "category": "backend" },
+  { "name": "TDD (Red-Green-Refactor)", "category": "practices" },
+  { "name": "Conventional Commits", "category": "practices" },
+  { "name": "Code review crítico", "category": "practices" },
+  { "name": "Spec-first / docs-first", "category": "practices" },
+  { "name": "Mentoria 1:1 para devs em formação", "category": "pedagogical" },
+  { "name": "Construção de currículo prático", "category": "pedagogical" },
+  { "name": "Pair programming didático", "category": "pedagogical" },
+  { "name": "Feedback técnico estruturado", "category": "pedagogical" }
+]

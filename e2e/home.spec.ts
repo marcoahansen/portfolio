@@ -13,3 +13,11 @@ test("home hero renders name, role and CV CTA", async ({ page }) => {
   await expect(gh).toHaveAttribute("target", "_blank")
   await expect(gh).toHaveAttribute("rel", /noopener/)
 })
+
+test("home renders skills section with category groups", async ({ page }) => {
+  await page.goto("/")
+
+  await expect(page.getByRole("heading", { level: 2, name: /habilidades/i })).toBeVisible()
+  await expect(page.getByRole("group", { name: /frontend/i })).toBeVisible()
+  await expect(page.getByRole("group", { name: /pedagóg/i })).toBeVisible()
+})

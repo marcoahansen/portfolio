@@ -1,6 +1,6 @@
 export const FEATURES = {
   hero: true,
-  skills: false,
+  skills: true,
   experience: false,
   projects: false,
   contact: false,

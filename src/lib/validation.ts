@@ -1,5 +1,5 @@
 import { z } from "zod"
-import type { Hero } from "@/types/domain"
+import type { Hero, Skill } from "@/types/domain"
 
 export const projectCategorySchema = z.enum(["trabalho", "freelance", "open-source", "ensino"])
 
@@ -96,6 +96,16 @@ export function validateHero(input: unknown): Hero {
     const issue = result.error.issues[0]!
     const path = issue.path.join(".")
     throw new Error(`Invalid hero.json at ${path}: ${issue.message}`)
+  }
+  return result.data
+}
+
+export function validateSkills(input: unknown): Skill[] {
+  const result = skillListSchema.safeParse(input)
+  if (!result.success) {
+    const issue = result.error.issues[0]!
+    const path = issue.path.join(".")
+    throw new Error(`Invalid skills.json at ${path}: ${issue.message}`)
   }
   return result.data
 }
