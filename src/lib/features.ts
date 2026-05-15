@@ -1,7 +1,7 @@
 export const FEATURES = {
   hero: true,
   skills: true,
-  experience: false,
+  experience: true,
   projects: false,
   contact: false,
 } as const
