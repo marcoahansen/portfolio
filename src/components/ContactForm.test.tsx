@@ -28,7 +28,7 @@ describe("ContactForm", () => {
     expect(screen.getByRole("button", { name: /enviar/i })).toBeInTheDocument()
   })
 
-  it("CT-M5-01: rejects malformed email and does not call onSubmit", async () => {
+  it("CT-M5-01: rejects malformed email and shows PT-BR message", async () => {
     const user = userEvent.setup()
     const onSubmit = vi.fn()
     render(<ContactForm onSubmit={onSubmit} />)
@@ -40,9 +40,10 @@ describe("ContactForm", () => {
 
     expect(onSubmit).not.toHaveBeenCalled()
     expect(screen.getByLabelText(/email/i)).toHaveAttribute("aria-invalid", "true")
+    expect(screen.getByText("Informe um e-mail válido.")).toBeInTheDocument()
   })
 
-  it("CT-M5-02: rejects message with 9 characters", async () => {
+  it("CT-M5-02: rejects message with 9 characters and shows PT-BR message", async () => {
     const user = userEvent.setup()
     const onSubmit = vi.fn()
     render(<ContactForm onSubmit={onSubmit} />)
@@ -54,6 +55,20 @@ describe("ContactForm", () => {
 
     expect(onSubmit).not.toHaveBeenCalled()
     expect(screen.getByLabelText(/mensagem/i)).toHaveAttribute("aria-invalid", "true")
+    expect(screen.getByText(/Mensagem deve ter ao menos 10 caracteres/)).toBeInTheDocument()
+  })
+
+  it("CT-M5-14: shows PT-BR messages for empty required fields", async () => {
+    const user = userEvent.setup()
+    const onSubmit = vi.fn()
+    render(<ContactForm onSubmit={onSubmit} />)
+    await user.click(screen.getByRole("button", { name: /enviar/i }))
+
+    expect(onSubmit).not.toHaveBeenCalled()
+    expect(screen.getByText(/Nome deve ter ao menos 2 caracteres/)).toBeInTheDocument()
+    expect(screen.getByText(/Informe um e-mail válido/)).toBeInTheDocument()
+    expect(screen.getByText(/Assunto deve ter ao menos 3 caracteres/)).toBeInTheDocument()
+    expect(screen.getByText(/Mensagem deve ter ao menos 10 caracteres/)).toBeInTheDocument()
   })
 
   it("CT-M5-03: rejects message with 1001 characters", async () => {
