@@ -1,1 +1,24 @@
-[]
+[
+  {
+    "company": "Venturus",
+    "role": "Frontend Developer",
+    "startDate": "2023-05-01",
+    "description": "Desenvolvimento de aplicações React/TypeScript para clientes do setor de telecom. Práticas de TDD, code review e mentoria de devs júnior.",
+    "stack": ["React", "TypeScript", "Vite", "Tailwind CSS", "Vitest"]
+  },
+  {
+    "company": "Cubos Academy",
+    "role": "Instrutor de Frontend",
+    "startDate": "2022-01-01",
+    "description": "Ministrei módulos de HTML, CSS, JavaScript e React para turmas de bootcamp. Construção de currículo prático e mentorias 1:1.",
+    "stack": ["JavaScript", "React", "Node.js", "Git"]
+  },
+  {
+    "company": "Freelance",
+    "role": "Desenvolvedor Frontend",
+    "startDate": "2020-06-01",
+    "endDate": "2022-12-01",
+    "description": "Projetos pontuais para PMEs: landing pages, painéis administrativos e integrações com APIs REST.",
+    "stack": ["React", "Next.js", "TypeScript"]
+  }
+]
