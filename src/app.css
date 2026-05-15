@@ -55,16 +55,6 @@
     scroll-behavior: smooth;
   }
   :root {
-    font-family:
-      "Geist Variable",
-      system-ui,
-      -apple-system,
-      sans-serif;
-  }
-  code,
-  pre,
-  kbd,
-  samp {
     font-family: "Geist Mono Variable", ui-monospace, monospace;
   }
   * {

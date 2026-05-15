@@ -12,9 +12,9 @@ export default {
     },
     extend: {
       fontFamily: {
-        sans: ['"Geist Variable"', "system-ui", "sans-serif"],
+        sans: ['"Geist Mono Variable"', "ui-monospace", "monospace"],
         mono: ['"Geist Mono Variable"', "ui-monospace", "monospace"],
-        display: ['"Asimovian"', '"Geist Variable"', "system-ui", "sans-serif"],
+        display: ['"Asimovian"', '"Geist Mono Variable"', "ui-monospace", "monospace"],
       },
       fontSize: {
         "display-2xl": [
