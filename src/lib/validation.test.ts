@@ -1,5 +1,13 @@
 import { describe, it, expect } from "vitest"
-import { projectSchema, contactFormSchema, heroSchema, validateHero } from "./validation"
+import {
+  projectSchema,
+  contactFormSchema,
+  heroSchema,
+  validateHero,
+  skillSchema,
+  skillListSchema,
+  validateSkills,
+} from "./validation"
 
 const validProject = {
   id: "p1",
@@ -173,6 +181,51 @@ describe("validateHero", () => {
   it("CT-M1-14: throws Error with humanized path and message on invalid input", () => {
     expect(() => validateHero({ ...validHero, displayName: "M" })).toThrow(
       /Invalid hero\.json at displayName/,
+    )
+  })
+})
+
+const validSkills = [
+  { name: "React", category: "frontend" as const },
+  { name: "TypeScript", category: "frontend" as const },
+  { name: "Vite", category: "tools" as const },
+  { name: "Node.js", category: "backend" as const },
+  { name: "TDD", category: "practices" as const },
+  { name: "Mentoria 1:1", category: "pedagogical" as const },
+]
+
+describe("skillSchema", () => {
+  it("CT-M3-01: accepts a valid skill", () => {
+    expect(() => skillSchema.parse(validSkills[0])).not.toThrow()
+  })
+
+  it("CT-M3-02: rejects skill with empty name", () => {
+    expect(() => skillSchema.parse({ name: "", category: "frontend" })).toThrow()
+  })
+
+  it("CT-M3-03: rejects skill with invalid category (RN-M3-01)", () => {
+    expect(() => skillSchema.parse({ name: "React", category: "design" })).toThrow()
+  })
+})
+
+describe("skillListSchema", () => {
+  it("CT-M3-04: accepts a valid list", () => {
+    expect(() => skillListSchema.parse(validSkills)).not.toThrow()
+  })
+
+  it("CT-M3-05: rejects non-array input", () => {
+    expect(() => skillListSchema.parse({ items: validSkills })).toThrow()
+  })
+})
+
+describe("validateSkills", () => {
+  it("CT-M3-06: returns parsed list for valid input", () => {
+    expect(validateSkills(validSkills)).toEqual(validSkills)
+  })
+
+  it("CT-M3-07: throws Error with humanized path and message on invalid input", () => {
+    expect(() => validateSkills([{ name: "React", category: "design" }])).toThrow(
+      /Invalid skills\.json at 0\.category/,
     )
   })
 })
