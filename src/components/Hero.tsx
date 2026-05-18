@@ -63,7 +63,7 @@ export function Hero({ hero, features = FEATURES }: Props) {
 
             {features.contact && (
               <Button asChild variant="outline" size="lg">
-                <a href={withBase("/#contact")}>{t("hero.contactMe")}</a>
+                <a href="#contact">{t("hero.contactMe")}</a>
               </Button>
             )}
 

@@ -64,7 +64,7 @@ describe("Hero", () => {
 
   it("renders 'Falar comigo' when contact flag is on", () => {
     render(<Hero hero={hero} features={{ ...allOff, contact: true }} />)
-    expect(screen.getByRole("link", { name: /Falar comigo/ })).toHaveAttribute("href", "/#contact")
+    expect(screen.getByRole("link", { name: /Falar comigo/ })).toHaveAttribute("href", "#contact")
   })
 
   it("omits 'Falar comigo' when contact flag is off", () => {
