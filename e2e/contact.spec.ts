@@ -1,7 +1,7 @@
 import { test, expect } from "@playwright/test"
 
 test("contact section has form fields and alt channels", async ({ page }) => {
-  await page.goto("#contact")
+  await page.goto("pt/#contact")
 
   await expect(page.getByRole("heading", { level: 2, name: /contato/i })).toBeVisible()
   await expect(page.getByLabel(/nome/i)).toBeVisible()
