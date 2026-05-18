@@ -1,8 +1,9 @@
-import { useId, useState, type FormEvent } from "react"
+import { useId, useMemo, useState, type FormEvent } from "react"
+import { useTranslation } from "react-i18next"
+import { z } from "zod"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Textarea } from "@/components/ui/textarea"
-import { contactFormSchema } from "@/lib/validation"
 import type { ContactForm as ContactFormData } from "@/types/domain"
 
 type Status = "idle" | "submitting" | "success" | "error"
@@ -18,6 +19,7 @@ const INVALID_STYLES =
   "aria-[invalid=true]:border-destructive aria-[invalid=true]:focus-visible:ring-destructive"
 
 export function ContactForm({ onSubmit }: Props) {
+  const { t } = useTranslation()
   const [values, setValues] = useState<ContactFormData>(EMPTY)
   const [errors, setErrors] = useState<FieldErrors>({})
   const [status, setStatus] = useState<Status>("idle")
@@ -26,6 +28,26 @@ export function ContactForm({ onSubmit }: Props) {
   const subjectId = useId()
   const messageId = useId()
   const statusId = useId()
+
+  const schema = useMemo(
+    () =>
+      z.object({
+        name: z
+          .string()
+          .min(2, t("contact.form.errors.nameTooShort"))
+          .max(100, t("contact.form.errors.nameTooLong")),
+        email: z.string().email(t("contact.form.errors.invalidEmail")),
+        subject: z
+          .string()
+          .min(3, t("contact.form.errors.subjectTooShort"))
+          .max(150, t("contact.form.errors.subjectTooLong")),
+        message: z
+          .string()
+          .min(10, t("contact.form.errors.messageTooShort"))
+          .max(1000, t("contact.form.errors.messageTooLong")),
+      }),
+    [t],
+  )
 
   function update<K extends keyof ContactFormData>(key: K, value: ContactFormData[K]) {
     setValues((prev) => ({ ...prev, [key]: value }))
@@ -38,7 +60,7 @@ export function ContactForm({ onSubmit }: Props) {
   }
 
   async function submit() {
-    const result = contactFormSchema.safeParse(values)
+    const result = schema.safeParse(values)
     if (!result.success) {
       const next: FieldErrors = {}
       for (const issue of result.error.issues) {
@@ -68,7 +90,7 @@ export function ContactForm({ onSubmit }: Props) {
       <div className="grid gap-5 md:grid-cols-2">
         <div className="space-y-1.5">
           <label htmlFor={nameId} className="text-sm font-medium">
-            Nome
+            {t("contact.form.name")}
           </label>
           <Input
             id={nameId}
@@ -89,7 +111,7 @@ export function ContactForm({ onSubmit }: Props) {
 
         <div className="space-y-1.5">
           <label htmlFor={emailId} className="text-sm font-medium">
-            Email
+            {t("contact.form.email")}
           </label>
           <Input
             id={emailId}
@@ -112,7 +134,7 @@ export function ContactForm({ onSubmit }: Props) {
 
       <div className="space-y-1.5">
         <label htmlFor={subjectId} className="text-sm font-medium">
-          Assunto
+          {t("contact.form.subject")}
         </label>
         <Input
           id={subjectId}
@@ -132,7 +154,7 @@ export function ContactForm({ onSubmit }: Props) {
 
       <div className="space-y-1.5">
         <label htmlFor={messageId} className="text-sm font-medium">
-          Mensagem
+          {t("contact.form.message")}
         </label>
         <Textarea
           id={messageId}
@@ -153,16 +175,16 @@ export function ContactForm({ onSubmit }: Props) {
 
       <div className="flex flex-wrap items-center gap-4">
         <Button type="submit" size="lg" disabled={sending}>
-          {sending ? "Enviando…" : "Enviar mensagem"}
+          {sending ? t("contact.form.submitting") : t("contact.form.submit")}
         </Button>
         {status === "success" && (
           <p id={statusId} role="status" className="text-sm font-medium text-emerald-600">
-            Mensagem enviada com sucesso. Em breve responderei.
+            {t("contact.form.success")}
           </p>
         )}
         {status === "error" && (
           <p role="alert" className="text-sm font-medium text-destructive">
-            Erro ao enviar mensagem. Tente novamente em instantes.
+            {t("contact.form.errors.submitFailed")}
           </p>
         )}
       </div>

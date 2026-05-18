@@ -58,12 +58,12 @@
     "subtitle": "Manda mensagem ou usa um dos canais abaixo.",
     "form": {
       "name": "Nome",
-      "email": "E-mail",
+      "email": "Email",
       "subject": "Assunto",
       "message": "Mensagem",
       "submit": "Enviar mensagem",
       "submitting": "Enviando...",
-      "success": "Mensagem enviada. Vou retornar em breve.",
+      "success": "Mensagem enviada com sucesso. Em breve responderei.",
       "errors": {
         "nameTooShort": "Nome deve ter ao menos 2 caracteres.",
         "nameTooLong": "Nome deve ter no máximo 100 caracteres.",
@@ -72,12 +72,12 @@
         "subjectTooLong": "Assunto deve ter no máximo 150 caracteres.",
         "messageTooShort": "Mensagem deve ter ao menos 10 caracteres.",
         "messageTooLong": "Mensagem deve ter no máximo 1000 caracteres.",
-        "submitFailed": "Não consegui enviar. Tenta de novo em alguns minutos."
+        "submitFailed": "Erro ao enviar mensagem. Tente novamente em instantes."
       }
     },
     "altChannels": {
       "heading": "Outros canais",
-      "email": "E-mail",
+      "email": "Email",
       "linkedin": "LinkedIn"
     }
   }

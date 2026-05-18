@@ -72,7 +72,7 @@
         "subjectTooLong": "Subject must have at most 150 characters.",
         "messageTooShort": "Message must have at least 10 characters.",
         "messageTooLong": "Message must have at most 1000 characters.",
-        "submitFailed": "Could not send. Please try again in a few minutes."
+        "submitFailed": "Error sending message. Please try again in a few minutes."
       }
     },
     "altChannels": {
