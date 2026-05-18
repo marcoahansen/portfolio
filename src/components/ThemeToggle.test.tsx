@@ -25,34 +25,34 @@ afterEach(() => {
 describe("ThemeToggle", () => {
   it("CT-M0-TT-01: renders Moon icon and PT label when current theme is light", () => {
     renderToggle()
-    expect(screen.getByRole("button", { name: "Mudar para tema escuro" })).toBeInTheDocument()
+    expect(screen.getByRole("switch", { name: "Mudar para tema escuro" })).toBeInTheDocument()
   })
 
   it("CT-M0-TT-02: renders Sun icon and PT label when stored theme is dark", () => {
     window.localStorage.setItem(STORAGE_KEY, "dark")
     renderToggle()
-    expect(screen.getByRole("button", { name: "Mudar para tema claro" })).toBeInTheDocument()
+    expect(screen.getByRole("switch", { name: "Mudar para tema claro" })).toBeInTheDocument()
   })
 
   it("CT-M0-TT-03: click toggles light to dark, applies .dark and swaps label", async () => {
     const user = userEvent.setup()
     renderToggle()
-    const button = screen.getByRole("button", {
+    const button = screen.getByRole("switch", {
       name: "Mudar para tema escuro",
     })
     await user.click(button)
     expect(document.documentElement.classList.contains("dark")).toBe(true)
-    expect(screen.getByRole("button", { name: "Mudar para tema claro" })).toBeInTheDocument()
+    expect(screen.getByRole("switch", { name: "Mudar para tema claro" })).toBeInTheDocument()
   })
 
   it("CT-M0-TT-04: double click returns to light and removes .dark", async () => {
     const user = userEvent.setup()
     renderToggle()
-    const button = screen.getByRole("button", {
+    const button = screen.getByRole("switch", {
       name: "Mudar para tema escuro",
     })
     await user.click(button)
-    await user.click(screen.getByRole("button", { name: "Mudar para tema claro" }))
+    await user.click(screen.getByRole("switch", { name: "Mudar para tema claro" }))
     expect(document.documentElement.classList.contains("dark")).toBe(false)
   })
 

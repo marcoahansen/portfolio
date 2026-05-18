@@ -1,13 +1,18 @@
 # Blueprint — `feat/m0-visual` (Fases A + B do FRD M0)
 
-**Versão:** 0.1.0
-**Status:** Draft — pronto para implementação
-**FRD de origem:** `docs/features/m0-infra/frd-m0-infra.md` (v0.2.0)
+**Versão:** 0.2.0
+**Status:** Implementado — mergeado em `main` via PR #9 (`437dc00`)
+**FRD de origem:** `docs/features/m0-infra/frd-m0-infra.md` (v0.3.0)
 **Spec / state:** `docs/spec.md`, `docs/scaffolding-state.md`
 **Branch base:** `main` (HEAD `8169522`)
 **Branch alvo:** `feat/m0-visual` → `main`
 
 > Plano **só** para a primeira sub-branch de M0. Cobre Fase A (fontes, paleta slate+emerald, 9 tokens tipográficos) + Fase B (motion utilities, `<Section>`, retrofit Hero/Skills/Experience/Education/Contact). Theme/i18n/navbar ficam para sub-branches seguintes — nada de `ThemeProvider`, `useTranslation`, `LocaleToggle`, `Navbar` aqui. Rotas, basename e dados localizados **inalterados**.
+
+> **Pós-merge (2026-05-18):** entregas reconciliadas na FRD §4.4/§4.5 v0.3.0. Valores efetivos divergem dos planejados:
+> - `tailwind.config.js` `fontFamily.sans` aponta para Geist Mono; `fontFamily.display` adicionado apontando para Asimovian (`@fontsource/asimovian`).
+> - Motion timings: `mh-fade-in-up` 900ms / `mh-fade-in` 700ms, easing `cubic-bezier(0.22, 0.61, 0.36, 1)`.
+> Este blueprint mantém os valores planejados como histórico; a verdade da implementação está em `tailwind.config.js`, `src/app.css` e na FRD reconciliada.
 
 ---
 
@@ -546,3 +551,4 @@ Reaviso para evitar drift:
 | Versão | Data | Mudança |
 |--------|------|---------|
 | 0.1.0 | 2026-05-15 | Blueprint inicial derivado da FRD v0.2.0 §11 (commits 1-10) + leitura dos componentes a retrofittear. |
+| 0.2.0 | 2026-05-18 | Reconciliação pós-merge durante `feat/m0-navbar`. Status passa para "Implementado". Nota no topo registra que os valores entregues (Geist Mono default, fontFamily.display Asimovian, motion 900/700ms, easing 0.22, 0.61, 0.36, 1) divergem do plano original e remetem à FRD v0.3.0 como source-of-truth. |
