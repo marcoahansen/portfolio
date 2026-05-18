@@ -1,9 +1,9 @@
 # Scaffolding State — Portfolio Marco Hansen
 
-**Versão:** 0.3.0
-**Status:** M1, M3, M4 e M5 entregues; apenas M2 pendente
-**Branch base:** `main` (HEAD em `73aeb18`, será avançado ao mergear PR #6 + esta PR)
-**Documentos relacionados:** `docs/spec.md`, `docs/scaffolding-specification.md`, `docs/scaffolding-blueprint.md`, `AGENTS.md`
+**Versão:** 1.0.0
+**Status:** M0 (infraestrutura compartilhada) entregue além de M1/M3/M4/M5; apenas M2 pendente
+**Branch base:** `main` (HEAD em `862b4a4`; será avançado ao mergear a PR de `feat/m0-navbar`)
+**Documentos relacionados:** `docs/spec.md`, `docs/scaffolding-specification.md`, `docs/scaffolding-blueprint.md`, `docs/features/m0-infra/handoff-m0.md`, `AGENTS.md`
 
 > Esta é uma **fotografia** do que efetivamente existe no repositório após a execução do `scaffolding-blueprint.md` mais os módulos M1/M3/M4/M5. O blueprint descreve a intenção; este documento descreve o resultado. Toda divergência entre os dois está catalogada na §6.
 
@@ -271,13 +271,14 @@ Espelho de `docs/spec.md §3`:
 
 | Módulo | Status | Escopo | Onde está |
 |--------|--------|--------|-----------|
+| M0 Infraestrutura | ✅ entregue (PRs #9, #10, #11, em fechamento via `feat/m0-navbar`) | Visual tokens, tema light/dark, i18n PT/EN, navbar + skip-link | `docs/features/m0-infra/handoff-m0.md` (autoritativo) |
 | M1 Hero + CV | ✅ entregue (PR #1) | `/` hero, CTA download CV, socials | `src/components/Hero.tsx`, `src/data/hero.json`, `public/cv/`, `public/avatar.webp` |
 | M2 Projetos | ⏳ pendente | `/projects`, `/projects/:id`, filtros | `filterProjects` + `projectSchema` ambos 100%; stubs de rota; `src/data/projects.json` |
 | M3 Skills | ✅ entregue (PR #2) | seção em `/` | `src/components/Skills.tsx`, `src/data/skills.json` |
 | M4 Timeline + Educação | ✅ entregue (PR #3) | seções em `/` | `src/components/Experience.tsx`, `src/components/Education.tsx`, `src/lib/period.ts`, `src/data/experiences.json`, `src/data/education.json` |
 | M5 Contato | ✅ entregue (PR #6) | `#contact` na home, EmailJS | `src/components/Contact.tsx`, `src/components/ContactForm.tsx`, `src/lib/contactSubmit.ts`, campo `email` em `hero.json` |
 
-Ordem restante: **M2** (único módulo pendente). M1 → M3 → M4 → M5 fechados na ordem `1c6165e`.
+Ordem restante: **M2** (único módulo pendente). M0 → M1 → M3 → M4 → M5 fechados.
 
 Cada módulo segue o ciclo TDD do `AGENTS.md §3`:
 
@@ -309,3 +310,4 @@ Resumo do `AGENTS.md` que afeta todo trabalho subsequente:
 | 0.1.0 | 2026-05-13 | Documento inicial cobrindo o estado pós-scaffolding (HEAD `01a46d3`). |
 | 0.2.0 | 2026-05-15 | Refletir entrega de M1 (PR #1), M3 (PR #2) e M4 (PR #3). HEAD `d00c129`. Helpers `period.ts` e `withBase.ts` adicionados; basename alinhado em `/portfolio/` para deploy GH Pages project-page. |
 | 0.3.0 | 2026-05-15 | Refletir entrega de M5 (PR #6) e fix de deploy (PR #5). Adicionados `ContactForm`, `Contact`, `contactSubmit.ts` (excluído de cobertura) e campo `email` em Hero. Mensagens PT-BR em `contactFormSchema`. Restam M2 e a UI flag `projects`. |
+| 1.0.0 | 2026-05-18 | Refletir entrega completa de M0 (infraestrutura compartilhada) via quatro sub-branches sequenciais: `feat/m0-visual` PR #9 (Asimovian display font + paleta emerald + tokens tipográficos + `<Section>` wrapper + motion utilities), `feat/m0-theme` PR #10 (ThemeProvider + ThemeToggle + bootstrap anti-FOUC), `feat/m0-i18n` PR #11 (i18next PT/EN + LocaleToggle + basename `/portfolio/` + rotas `$lang` + split de dados), `feat/m0-navbar` (SkipLink + Brand + Navbar sticky com scrollspy + MobileMenu via Sheet + e2e). Detalhes em `docs/features/m0-infra/handoff-m0.md` v1.0.0. Restam apenas M2 e a feature flag `projects`. |
