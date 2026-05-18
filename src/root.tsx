@@ -8,7 +8,7 @@ const themeBootstrap = `(function(){try{var t=localStorage.getItem("mh-theme");v
 
 export function Layout({ children }: { children: ReactNode }) {
   return (
-    <html lang="pt-BR">
+    <html lang="pt-BR" suppressHydrationWarning>
       <head>
         <meta charSet="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
