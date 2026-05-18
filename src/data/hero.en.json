@@ -1,0 +1,17 @@
+{
+  "fullName": "Marco Aurelio Hansen de Oliveira",
+  "displayName": "Marco Hansen",
+  "role": "Frontend Developer & Technology Instructor",
+  "tagline": "I build robust interfaces with TDD and help aspiring devs do the same.",
+  "email": "marco.hansen@venturus.org.br",
+  "github": { "url": "https://github.com/marcoahansen", "handle": "marcoahansen" },
+  "linkedin": {
+    "url": "https://www.linkedin.com/in/marco-a-hansen/",
+    "handle": "marco-a-hansen"
+  },
+  "cv": {
+    "fileName": "marco-hansen-cv-2026-05.pdf",
+    "versionLabel": "may/2026"
+  },
+  "avatar": { "src": "/avatar.webp", "alt": "Photo of Marco Hansen" }
+}
