@@ -1,0 +1,84 @@
+{
+  "nav": {
+    "skills": "Skills",
+    "experience": "Experience",
+    "contact": "Contact",
+    "backHome": "← Home"
+  },
+  "a11y": {
+    "skipToContent": "Skip to content",
+    "openMenu": "Open menu",
+    "closeMenu": "Close menu"
+  },
+  "theme": {
+    "toLight": "Switch to light theme",
+    "toDark": "Switch to dark theme"
+  },
+  "locale": {
+    "switchTo": "Switch language to {{locale}}"
+  },
+  "period": {
+    "present": "Present"
+  },
+  "category": {
+    "trabalho": "Work",
+    "freelance": "Freelance",
+    "open-source": "Open Source",
+    "ensino": "Teaching"
+  },
+  "skillCategory": {
+    "frontend": "Frontend",
+    "backend": "Backend",
+    "tools": "Tools",
+    "practices": "Practices",
+    "pedagogical": "Pedagogical"
+  },
+  "status": {
+    "concluido": "Completed",
+    "em-andamento": "In progress"
+  },
+  "hero": {
+    "availability": "Available for projects",
+    "viewProjects": "View projects",
+    "contactMe": "Get in touch",
+    "downloadCv": "Download CV",
+    "cvVersion": "Version"
+  },
+  "skills": {
+    "title": "Skills"
+  },
+  "experience": {
+    "title": "Experience"
+  },
+  "education": {
+    "title": "Education"
+  },
+  "contact": {
+    "title": "Contact",
+    "subtitle": "Send a message or reach me via the channels below.",
+    "form": {
+      "name": "Name",
+      "email": "Email",
+      "subject": "Subject",
+      "message": "Message",
+      "submit": "Send message",
+      "submitting": "Sending...",
+      "success": "Message sent. I'll get back to you soon.",
+      "errors": {
+        "nameTooShort": "Name must have at least 2 characters.",
+        "nameTooLong": "Name must have at most 100 characters.",
+        "invalidEmail": "Please enter a valid email.",
+        "subjectTooShort": "Subject must have at least 3 characters.",
+        "subjectTooLong": "Subject must have at most 150 characters.",
+        "messageTooShort": "Message must have at least 10 characters.",
+        "messageTooLong": "Message must have at most 1000 characters.",
+        "submitFailed": "Could not send. Please try again in a few minutes."
+      }
+    },
+    "altChannels": {
+      "heading": "Other channels",
+      "email": "Email",
+      "linkedin": "LinkedIn"
+    }
+  }
+}

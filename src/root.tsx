@@ -2,6 +2,7 @@ import { Links, Meta, Outlet, Scripts, ScrollRestoration } from "react-router"
 import type { ReactNode } from "react"
 import { ThemeProvider } from "@/lib/theme"
 import { ThemeToggle } from "@/components/ThemeToggle"
+import "@/i18n"
 import "./app.css"
 
 const themeBootstrap = `(function(){try{var t=localStorage.getItem("mh-theme");var d=t==="dark"||(t===null&&window.matchMedia("(prefers-color-scheme: dark)").matches);if(d)document.documentElement.classList.add("dark");}catch(_){}})();`
