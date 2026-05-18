@@ -97,8 +97,8 @@ describe("MobileMenu", () => {
     renderMenu()
     await user.click(screen.getByRole("button", { name: /Abrir menu/i }))
     const dialog = await screen.findByRole("dialog")
-    expect(within(dialog).getByRole("button", { name: /Mudar idioma/i })).toBeInTheDocument()
-    expect(within(dialog).getByRole("button", { name: /tema/i })).toBeInTheDocument()
+    expect(within(dialog).getByRole("switch", { name: /Mudar idioma/i })).toBeInTheDocument()
+    expect(within(dialog).getByRole("switch", { name: /tema/i })).toBeInTheDocument()
   })
 
   it("CT-M0-MM-07: active anchor receives aria-current='true'", async () => {

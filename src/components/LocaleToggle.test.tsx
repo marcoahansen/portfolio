@@ -34,13 +34,13 @@ afterEach(() => {
 describe("LocaleToggle", () => {
   it("CT-M0-LT-01: PT context renders EN target with localized aria-label", () => {
     renderAt("/pt/")
-    expect(screen.getByRole("button", { name: /Mudar idioma para EN/i })).toBeInTheDocument()
+    expect(screen.getByRole("switch", { name: /Mudar idioma para EN/i })).toBeInTheDocument()
   })
 
   it("CT-M0-LT-02: clicking from /pt/projects navigates to /en/projects preserving path", async () => {
     const user = userEvent.setup()
     renderAt("/pt/projects")
-    await user.click(screen.getByRole("button", { name: /Mudar idioma para EN/i }))
+    await user.click(screen.getByRole("switch", { name: /Mudar idioma para EN/i }))
     expect(screen.getByTestId("loc")).toHaveTextContent("/en/projects")
   })
 
@@ -48,7 +48,7 @@ describe("LocaleToggle", () => {
     await i18n.changeLanguage("en")
     const user = userEvent.setup()
     renderAt("/en/")
-    await user.click(screen.getByRole("button", { name: /Switch language to PT/i }))
+    await user.click(screen.getByRole("switch", { name: /Switch language to PT/i }))
     expect(screen.getByTestId("loc")).toHaveTextContent("/pt/")
   })
 

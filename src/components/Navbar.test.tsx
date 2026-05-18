@@ -88,8 +88,8 @@ describe("Navbar", () => {
 
   it("CT-M0-NV-05: includes LocaleToggle and ThemeToggle buttons", () => {
     renderAt("/portfolio/pt/")
-    expect(screen.getByRole("button", { name: /Mudar idioma/i })).toBeInTheDocument()
-    expect(screen.getByRole("button", { name: /tema/i })).toBeInTheDocument()
+    expect(screen.getByRole("switch", { name: /Mudar idioma/i })).toBeInTheDocument()
+    expect(screen.getByRole("switch", { name: /tema/i })).toBeInTheDocument()
   })
 
   it("CT-M0-NV-06: header reports data-scrolled='true' after scroll", () => {

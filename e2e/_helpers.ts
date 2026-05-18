@@ -1,9 +1,9 @@
 import type { Page } from "@playwright/test"
 
-export const themeButton = (page: Page) => page.getByRole("button", { name: /tema|theme/i })
+export const themeButton = (page: Page) => page.getByRole("switch", { name: /tema|theme/i })
 
 export const localeButton = (page: Page) =>
-  page.getByRole("button", { name: /Mudar idioma|Switch language/i })
+  page.getByRole("switch", { name: /Mudar idioma|Switch language/i })
 
 export const navHeader = (page: Page) => page.locator("header[data-scrolled]")
 
