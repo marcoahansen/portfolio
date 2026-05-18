@@ -1,5 +1,5 @@
 import { z } from "zod"
-import type { Education, Experience, Hero, Skill } from "@/types/domain"
+import type { Education, Experience, Hero, Project, Skill } from "@/types/domain"
 
 export const projectCategorySchema = z.enum(["trabalho", "freelance", "open-source", "ensino"])
 
@@ -149,6 +149,16 @@ export function validateEducation(input: unknown): Education[] {
     const issue = result.error.issues[0]!
     const path = issue.path.join(".")
     throw new Error(`Invalid education.json at ${path}: ${issue.message}`)
+  }
+  return result.data
+}
+
+export function validateProjects(input: unknown): Project[] {
+  const result = projectListSchema.safeParse(input)
+  if (!result.success) {
+    const issue = result.error.issues[0]!
+    const path = issue.path.join(".")
+    throw new Error(`Invalid projects.json at ${path}: ${issue.message}`)
   }
   return result.data
 }

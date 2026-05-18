@@ -11,6 +11,7 @@ import {
   educationSchema,
   validateExperiences,
   validateEducation,
+  validateProjects,
 } from "./validation"
 
 const validProject = {
@@ -325,6 +326,22 @@ describe("validateEducation", () => {
   it("CT-M4-14: throws humanized error", () => {
     expect(() => validateEducation([{ ...validEducation, institution: "" }])).toThrow(
       /Invalid education\.json at 0\.institution/,
+    )
+  })
+})
+
+describe("validateProjects", () => {
+  it("returns parsed list for valid input", () => {
+    expect(validateProjects([validProject])).toEqual([validProject])
+  })
+
+  it("accepts empty array", () => {
+    expect(validateProjects([])).toEqual([])
+  })
+
+  it("throws humanized error for invalid input", () => {
+    expect(() => validateProjects([{ ...validProject, title: "" }])).toThrow(
+      /Invalid projects\.json at 0\.title/,
     )
   })
 })
