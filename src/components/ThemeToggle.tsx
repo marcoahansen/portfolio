@@ -1,17 +1,8 @@
-import { useSyncExternalStore } from "react"
 import { useTranslation } from "react-i18next"
 import { Moon, Sun } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { useTheme } from "@/lib/theme"
-
-const noop = () => undefined
-const noopSubscribe = () => noop
-const useIsHydrated = () =>
-  useSyncExternalStore(
-    noopSubscribe,
-    () => true,
-    () => false,
-  )
+import { useIsHydrated } from "@/lib/useIsHydrated"
 
 export function ThemeToggle() {
   const { theme, toggle } = useTheme()
