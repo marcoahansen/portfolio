@@ -1,5 +1,5 @@
 import { z } from "zod"
-import type { Education, Experience, Hero, Skill } from "@/types/domain"
+import type { Education, Experience, Hero, Project, Skill } from "@/types/domain"
 
 export const projectCategorySchema = z.enum(["trabalho", "freelance", "open-source", "ensino"])
 
@@ -74,19 +74,10 @@ export const educationSchema = z.object({
 export const educationListSchema = z.array(educationSchema)
 
 export const contactFormSchema = z.object({
-  name: z
-    .string()
-    .min(2, "Nome deve ter ao menos 2 caracteres.")
-    .max(100, "Nome deve ter no máximo 100 caracteres."),
-  email: z.string().email("Informe um e-mail válido."),
-  subject: z
-    .string()
-    .min(3, "Assunto deve ter ao menos 3 caracteres.")
-    .max(150, "Assunto deve ter no máximo 150 caracteres."),
-  message: z
-    .string()
-    .min(10, "Mensagem deve ter ao menos 10 caracteres.")
-    .max(1000, "Mensagem deve ter no máximo 1000 caracteres."),
+  name: z.string().min(2).max(100),
+  email: z.string().email(),
+  subject: z.string().min(3).max(150),
+  message: z.string().min(10).max(1000),
 })
 
 export const heroSchema = z.object({
@@ -149,6 +140,16 @@ export function validateEducation(input: unknown): Education[] {
     const issue = result.error.issues[0]!
     const path = issue.path.join(".")
     throw new Error(`Invalid education.json at ${path}: ${issue.message}`)
+  }
+  return result.data
+}
+
+export function validateProjects(input: unknown): Project[] {
+  const result = projectListSchema.safeParse(input)
+  if (!result.success) {
+    const issue = result.error.issues[0]!
+    const path = issue.path.join(".")
+    throw new Error(`Invalid projects.json at ${path}: ${issue.message}`)
   }
   return result.data
 }

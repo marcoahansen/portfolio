@@ -1,3 +1,4 @@
+import { useTranslation } from "react-i18next"
 import { Button } from "@/components/ui/button"
 import { FEATURES, type Features } from "@/lib/features"
 import { withBase } from "@/lib/withBase"
@@ -25,6 +26,7 @@ type Props = {
 }
 
 export function Hero({ hero, features = FEATURES }: Props) {
+  const { t } = useTranslation()
   return (
     <section className="relative isolate overflow-hidden bg-gradient-to-br from-background via-background to-secondary/40">
       <div
@@ -40,7 +42,7 @@ export function Hero({ hero, features = FEATURES }: Props) {
         <div className="order-2 space-y-6 md:order-1 md:col-span-2">
           <p className="inline-flex items-center gap-2 rounded-full border border-border bg-background/70 px-3 py-1 text-xs font-medium text-muted-foreground shadow-sm backdrop-blur">
             <span className="size-1.5 rounded-full bg-emerald-500" aria-hidden="true" />
-            Disponível para projetos e mentorias
+            {t("hero.availability")}
           </p>
           <h1 className="bg-gradient-to-br from-foreground to-foreground/60 bg-clip-text font-display text-display-xl font-bold tracking-widest text-transparent md:text-display-2xl">
             {hero.displayName}
@@ -55,13 +57,13 @@ export function Hero({ hero, features = FEATURES }: Props) {
           <div className="flex flex-wrap items-center gap-3 pt-2">
             <Button asChild size="lg" className="shadow-md transition-shadow hover:shadow-lg">
               <a href={withBase(`/cv/${hero.cv.fileName}`)} download>
-                Download CV (<span className="font-mono">{hero.cv.versionLabel}</span>)
+                {t("hero.downloadCv")} (<span className="font-mono">{hero.cv.versionLabel}</span>)
               </a>
             </Button>
 
             {features.contact && (
               <Button asChild variant="outline" size="lg">
-                <a href={withBase("/#contact")}>Falar comigo</a>
+                <a href={withBase("/#contact")}>{t("hero.contactMe")}</a>
               </Button>
             )}
 
@@ -70,7 +72,7 @@ export function Hero({ hero, features = FEATURES }: Props) {
                 href={withBase("/projects")}
                 className="inline-flex items-center text-sm font-medium text-primary underline-offset-4 hover:underline"
               >
-                Ver projetos →
+                {t("hero.viewProjects")} →
               </a>
             )}
           </div>

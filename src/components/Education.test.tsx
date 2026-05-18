@@ -34,7 +34,7 @@ describe("Education", () => {
       "Bootcamp Full-Stack Web",
     )
     expect(within(entries[0]!).getByText("Cubos Academy")).toBeInTheDocument()
-    expect(within(entries[0]!).getByText(/Mar 2021 — Dez 2021/)).toBeInTheDocument()
+    expect(within(entries[0]!).getByText(/2021.*—.*2021/)).toBeInTheDocument()
   })
 
   it("CT-M4-31: omits description when not provided", () => {

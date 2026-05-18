@@ -1,16 +1,11 @@
+import { useTranslation } from "react-i18next"
 import { Badge } from "@/components/ui/badge"
 import { Card, CardContent, CardHeader } from "@/components/ui/card"
 import { Section } from "@/components/Section"
 import type { Skill, SkillCategory } from "@/types/domain"
 
-const TECHNICAL_CATEGORIES: { id: SkillCategory; label: string }[] = [
-  { id: "frontend", label: "Frontend" },
-  { id: "tools", label: "Ferramentas" },
-  { id: "backend", label: "Backend" },
-  { id: "practices", label: "Práticas" },
-]
-
-const PEDAGOGICAL_CATEGORY = { id: "pedagogical" as const, label: "Pedagógico" }
+const TECHNICAL_CATEGORY_IDS: SkillCategory[] = ["frontend", "tools", "backend", "practices"]
+const PEDAGOGICAL_CATEGORY_ID: SkillCategory = "pedagogical"
 
 type Props = { skills: Skill[] }
 
@@ -39,20 +34,17 @@ function CategoryGroup({ id, label, items }: { id: string; label: string; items:
 }
 
 export function Skills({ skills }: Props) {
-  const technicalGroups = TECHNICAL_CATEGORIES.map((c) => ({
-    ...c,
-    items: skills.filter((s) => s.category === c.id),
+  const { t } = useTranslation()
+  const technicalGroups = TECHNICAL_CATEGORY_IDS.map((id) => ({
+    id,
+    label: t(`skillCategory.${id}`),
+    items: skills.filter((s) => s.category === id),
   })).filter((g) => g.items.length > 0)
 
-  const pedagogicalItems = skills.filter((s) => s.category === PEDAGOGICAL_CATEGORY.id)
+  const pedagogicalItems = skills.filter((s) => s.category === PEDAGOGICAL_CATEGORY_ID)
 
   return (
-    <Section
-      id="skills"
-      eyebrow="Stack & mentoria"
-      title="Habilidades"
-      subtitle="Stack técnico do dia-a-dia e o que ensino para quem está começando."
-    >
+    <Section id="skills" title={t("skills.title")}>
       <div className="grid gap-6 md:grid-cols-2">
         {technicalGroups.map((g) => (
           <CategoryGroup key={g.id} id={g.id} label={g.label} items={g.items} />
@@ -61,8 +53,8 @@ export function Skills({ skills }: Props) {
       {pedagogicalItems.length > 0 && (
         <div className="mt-6">
           <CategoryGroup
-            id={PEDAGOGICAL_CATEGORY.id}
-            label={PEDAGOGICAL_CATEGORY.label}
+            id={PEDAGOGICAL_CATEGORY_ID}
+            label={t(`skillCategory.${PEDAGOGICAL_CATEGORY_ID}`)}
             items={pedagogicalItems}
           />
         </div>

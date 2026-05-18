@@ -1,0 +1,58 @@
+[
+  {
+    "company": "Venturus",
+    "role": "Frontend Development Analyst",
+    "startDate": "2023-05-01",
+    "description": "Built React projects with CI/CD, unit tests and integration with a Java SpringBoot API and MySQL database. Implemented dynamic drag-and-drop forms, a design system with shadcn/ui and Tailwind CSS. Focus on SEO, accessibility and reusable componentization following Clean Code and UI/UX practices.",
+    "stack": [
+      "React",
+      "TypeScript",
+      "Tailwind CSS",
+      "shadcn/ui",
+      "Radix",
+      "Ant Design",
+      "Chakra UI",
+      "React Hook Form",
+      "TanStack Query",
+      "Docker",
+      "Azure DevOps",
+      "Git"
+    ]
+  },
+  {
+    "company": "Confidential Project (Freelance)",
+    "role": "Frontend Developer",
+    "startDate": "2023-09-01",
+    "endDate": "2025-05-01",
+    "description": "Built Next.js apps with CI/CD integration, AWS and a Nest.js API. Multi-user donation validation via webhooks on a fundraising platform.",
+    "stack": ["Next.js", "TypeScript", "Chakra UI", "Docker", "GitHub", "AWS"]
+  },
+  {
+    "company": "Senai Firjan Petrópolis",
+    "role": "Technical Instructor",
+    "startDate": "2025-06-01",
+    "endDate": "2025-11-01",
+    "description": "Teaching technical and qualification classes: Introduction to Computer Science, Programming Logic, Basic Frontend and React. Applied PBL, pedagogical planning, didactic material creation and student mentoring for the job market.",
+    "stack": ["React", "JavaScript", "HTML", "CSS", "Didactics", "Public speaking", "Canva"]
+  },
+  {
+    "company": "Venturus",
+    "role": "IT Intern",
+    "startDate": "2022-08-01",
+    "endDate": "2023-05-01",
+    "description": "Delivered small projects focused on frontend web development. Supported day-to-day operations of innovation projects.",
+    "stack": [
+      "React",
+      "Next.js",
+      "TypeScript",
+      "Styled Components",
+      "Material UI",
+      "Chakra UI",
+      "Tailwind CSS",
+      "Fastify",
+      "PostgreSQL",
+      "Docker",
+      "GitLab"
+    ]
+  }
+]

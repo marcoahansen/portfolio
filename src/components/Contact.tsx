@@ -1,3 +1,4 @@
+import { useTranslation } from "react-i18next"
 import { ContactForm } from "@/components/ContactForm"
 import { Section } from "@/components/Section"
 import type { ContactForm as ContactFormData } from "@/types/domain"
@@ -9,13 +10,9 @@ type Props = {
 }
 
 export function Contact({ email, linkedinUrl, onSubmit }: Props) {
+  const { t } = useTranslation()
   return (
-    <Section
-      id="contact"
-      eyebrow="Fale comigo"
-      title="Contato"
-      subtitle="Tem um projeto, vaga ou conversa técnica em mente? Envie uma mensagem abaixo ou use os canais alternativos."
-    >
+    <Section id="contact" title={t("contact.title")} subtitle={t("contact.subtitle")}>
       <div className="mx-auto max-w-3xl space-y-8">
         <ul className="flex flex-wrap items-center justify-center gap-x-6 gap-y-2 text-body-sm">
           <li>
@@ -33,7 +30,7 @@ export function Contact({ email, linkedinUrl, onSubmit }: Props) {
               rel="noopener noreferrer"
               className="font-medium text-primary underline-offset-4 hover:underline"
             >
-              LinkedIn
+              {t("contact.altChannels.linkedin")}
             </a>
           </li>
         </ul>

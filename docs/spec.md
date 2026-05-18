@@ -53,6 +53,12 @@ O projeto tem **três públicos simultâneos** com necessidades distintas, e dev
 
 ## 3. Módulos Funcionais
 
+### M0 — Infraestrutura
+
+**Descrição:** Tema claro/escuro com toggle persistido, i18n PT/EN
+com rotas `/pt` e `/en`, dicionários paralelos, guard de paridade
+no build, navbar e skip-link. Ver `docs/features/m0-infra/frd-m0-infra.md`.
+
 ### M1 — Hero / Apresentação
 
 **Descrição:** Primeira impressão. Identidade, cargo e call-to-action imediato.
@@ -221,12 +227,13 @@ type ContactForm = {
 ## 5. Fora do Escopo (v1)
 
 - Blog / artigos (pode ser v2)
-- Modo escuro/claro toggle (pode ser v2; CSS adapta ao sistema)
-- Internacionalização PT/EN (pode ser v2)
 - Analytics de visitantes
 - Autenticação / área admin
 - Comentários em projetos
 - Integração automática com GitHub API (pode ser v2)
+
+> Tema claro/escuro e i18n PT/EN saíram desta lista — entregues em M0
+> (ver `docs/features/m0-infra/frd-m0-infra.md`).
 
 ---
 

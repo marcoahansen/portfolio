@@ -10,12 +10,14 @@ function fail(message: string): never {
   process.exit(1)
 }
 
-const heroRaw = readFileSync(resolve(ROOT, "src/data/hero.json"), "utf8")
+const heroRaw = readFileSync(resolve(ROOT, "src/data/hero.pt.json"), "utf8")
 const hero = validateHero(JSON.parse(heroRaw))
 
 const cvPath = resolve(ROOT, "public/cv", hero.cv.fileName)
 if (!existsSync(cvPath)) {
-  fail(`CV file missing: ${cvPath}\n` + "Update src/data/hero.json or place the PDF at public/cv/")
+  fail(
+    `CV file missing: ${cvPath}\n` + "Update src/data/hero.pt.json or place the PDF at public/cv/",
+  )
 }
 
 const avatarPath = resolve(ROOT, "public" + hero.avatar.src)

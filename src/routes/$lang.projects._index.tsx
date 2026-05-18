@@ -1,6 +1,6 @@
 export default function ProjectsList() {
   return (
-    <main>
+    <main id="main">
       <h1>Projetos</h1>
       <label>
         Tecnologia

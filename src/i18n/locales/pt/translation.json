@@ -1,0 +1,84 @@
+{
+  "nav": {
+    "skills": "Habilidades",
+    "experience": "Experiência",
+    "contact": "Contato",
+    "backHome": "← Início"
+  },
+  "a11y": {
+    "skipToContent": "Pular para conteúdo",
+    "openMenu": "Abrir menu",
+    "closeMenu": "Fechar menu"
+  },
+  "theme": {
+    "toLight": "Mudar para tema claro",
+    "toDark": "Mudar para tema escuro"
+  },
+  "locale": {
+    "switchTo": "Mudar idioma para {{locale}}"
+  },
+  "period": {
+    "present": "Presente"
+  },
+  "category": {
+    "trabalho": "Trabalho",
+    "freelance": "Freelance",
+    "open-source": "Open Source",
+    "ensino": "Ensino"
+  },
+  "skillCategory": {
+    "frontend": "Frontend",
+    "backend": "Backend",
+    "tools": "Ferramentas",
+    "practices": "Práticas",
+    "pedagogical": "Pedagógicas"
+  },
+  "status": {
+    "concluido": "Concluído",
+    "em-andamento": "Em andamento"
+  },
+  "hero": {
+    "availability": "Disponível para projetos",
+    "viewProjects": "Ver projetos",
+    "contactMe": "Falar comigo",
+    "downloadCv": "Baixar CV",
+    "cvVersion": "Versão"
+  },
+  "skills": {
+    "title": "Habilidades"
+  },
+  "experience": {
+    "title": "Experiência"
+  },
+  "education": {
+    "title": "Formação"
+  },
+  "contact": {
+    "title": "Contato",
+    "subtitle": "Manda mensagem ou usa um dos canais abaixo.",
+    "form": {
+      "name": "Nome",
+      "email": "Email",
+      "subject": "Assunto",
+      "message": "Mensagem",
+      "submit": "Enviar mensagem",
+      "submitting": "Enviando...",
+      "success": "Mensagem enviada com sucesso. Em breve responderei.",
+      "errors": {
+        "nameTooShort": "Nome deve ter ao menos 2 caracteres.",
+        "nameTooLong": "Nome deve ter no máximo 100 caracteres.",
+        "invalidEmail": "Informe um e-mail válido.",
+        "subjectTooShort": "Assunto deve ter ao menos 3 caracteres.",
+        "subjectTooLong": "Assunto deve ter no máximo 150 caracteres.",
+        "messageTooShort": "Mensagem deve ter ao menos 10 caracteres.",
+        "messageTooLong": "Mensagem deve ter no máximo 1000 caracteres.",
+        "submitFailed": "Erro ao enviar mensagem. Tente novamente em instantes."
+      }
+    },
+    "altChannels": {
+      "heading": "Outros canais",
+      "email": "Email",
+      "linkedin": "LinkedIn"
+    }
+  }
+}

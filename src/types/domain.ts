@@ -11,10 +11,10 @@ export type Project = {
   status: ProjectStatus
   featured: boolean
   confidential: boolean
-  repositoryUrl?: string
-  demoUrl?: string
+  repositoryUrl?: string | undefined
+  demoUrl?: string | undefined
   startDate: string
-  endDate?: string
+  endDate?: string | undefined
 }
 
 export type SkillCategory = "frontend" | "tools" | "backend" | "practices" | "pedagogical"

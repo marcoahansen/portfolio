@@ -1,31 +1,43 @@
-const PT_BR_MONTHS = [
-  "Jan",
-  "Fev",
-  "Mar",
-  "Abr",
-  "Mai",
-  "Jun",
-  "Jul",
-  "Ago",
-  "Set",
-  "Out",
-  "Nov",
-  "Dez",
-]
+import type { Locale } from "@/types/i18n"
 
-function formatMonthYear(isoDate: string): string {
-  const match = /^(\d{4})-(\d{2})-\d{2}$/.exec(isoDate)
-  if (!match) throw new Error(`Invalid ISO date: ${isoDate}`)
-  const year = match[1]!
-  const monthIndex = Number(match[2]) - 1
-  const label = PT_BR_MONTHS[monthIndex]
-  if (!label) throw new Error(`Invalid month in date: ${isoDate}`)
-  return `${label} ${year}`
+const intlLocale: Record<Locale, string> = {
+  pt: "pt-BR",
+  en: "en-US",
 }
 
-export function formatPeriod(startDate: string, endDate?: string): string {
-  const start = formatMonthYear(startDate)
-  const end = endDate ? formatMonthYear(endDate) : "Presente"
+const presentLabel: Record<Locale, string> = {
+  pt: "Presente",
+  en: "Present",
+}
+
+const cache = new Map<Locale, Intl.DateTimeFormat>()
+
+function getFormatter(locale: Locale): Intl.DateTimeFormat {
+  const cached = cache.get(locale)
+  if (cached) return cached
+  const fmt = new Intl.DateTimeFormat(intlLocale[locale], {
+    month: "short",
+    year: "numeric",
+    timeZone: "UTC",
+  })
+  cache.set(locale, fmt)
+  return fmt
+}
+
+export function formatPeriod(
+  startDate: string,
+  endDate: string | undefined,
+  locale: Locale,
+): string {
+  if (!/^\d{4}-\d{2}-\d{2}$/.test(startDate)) {
+    throw new Error(`Invalid ISO date: ${startDate}`)
+  }
+  if (endDate && !/^\d{4}-\d{2}-\d{2}$/.test(endDate)) {
+    throw new Error(`Invalid ISO date: ${endDate}`)
+  }
+  const fmt = getFormatter(locale)
+  const start = fmt.format(new Date(startDate))
+  const end = endDate ? fmt.format(new Date(endDate)) : presentLabel[locale]
   return `${start} — ${end}`
 }
 
