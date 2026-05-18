@@ -1,7 +1,7 @@
 # FRD — M0: Infraestrutura compartilhada
 
-**Versão:** 0.2.0
-**Status:** Draft — pronto para implementação
+**Versão:** 0.3.0
+**Status:** Implementado — sub-branches `feat/m0-visual`, `feat/m0-theme`, `feat/m0-i18n` e `feat/m0-navbar` mergeadas
 **Spec de origem:** `docs/spec.md` (refinamentos a §5 e adição implícita ao §3)
 **Documentos relacionados:** `docs/scaffolding-state.md`, `docs/features/m1-hero/frd-m1-hero.md`, `AGENTS.md`
 
@@ -598,6 +598,12 @@ Os call-sites em `Experience.tsx`/`Education.tsx` lêem o locale via `i18n.langu
 
 ### 4.4 Estilo visual
 
+> **Divergência reconciliada em produção (`feat/m0-visual` PR #9, `feat/m0-navbar`):**
+> - `tailwind.config.js` `fontFamily.sans` aponta para **Geist Mono Variable** (não Geist Sans). Geist Mono é o body face default em `:root`.
+> - Foi introduzido `fontFamily.display` apontando para **Asimovian**, consumido pelas headings via classe `font-display` em Hero `h1`, Section `h2` e Brand.
+> - `@fontsource/asimovian` foi adicionado a `dependencies`.
+> - O snippet de fontes abaixo permanece como histórico do plano original; a verdade da implementação está em `src/app.css` e `tailwind.config.js`.
+
 **Fontes — em `src/app.css`:**
 
 ```css
@@ -761,6 +767,12 @@ export function Section({
 - `Skills.tsx`, `Experience.tsx`, `Education.tsx`, `Contact.tsx` — migrar para `<Section>` com `id` correspondente (`skills`, `experience`, `education`, `contact`), `title` puxado do dicionário.
 
 ### 4.5 Animações
+
+> **Divergência reconciliada em produção (`feat/m0-visual` PR #9):**
+> - `.motion-fade-in-up`: duração final **900ms** (FRD original 600ms).
+> - `.motion-fade-in`: duração final **700ms** (FRD original 500ms).
+> - Easing aplicado: `cubic-bezier(0.22, 0.61, 0.36, 1)` (FRD original `cubic-bezier(0.16, 1, 0.3, 1)`).
+> - Os timings foram ajustados em revisão visual e ficaram como entregues. O snippet abaixo mantém os valores planejados originalmente para histórico.
 
 **Keyframes em `src/app.css` (dentro de `@layer utilities`):**
 
@@ -1302,4 +1314,5 @@ Cada sub-branch entra em `main` via `--ff-only` ou squash, e só após sua check
 | Versão | Data | Mudança |
 |--------|------|---------|
 | 0.1.0 | 2026-05-15 | FRD inicial. Derivado de sessão de brainstorm de 5 rounds (navbar, tema, i18n, visual, animações) com 26 decisões fechadas. |
+| 0.3.0 | 2026-05-18 | Reconciliação documental durante `feat/m0-navbar`. §4.4 e §4.5 ganham notas de divergência registrando as escolhas entregues por `feat/m0-visual` (Geist Mono default, fontFamily.display Asimovian, durações 900/700ms, easing `0.22, 0.61, 0.36, 1`). FRD permanece source-of-truth de intenção; divergências entregues passam a ser explícitas em vez de tribais. |
 | 0.2.0 | 2026-05-15 | Split de implementação em 4 sub-branches sequenciais (`feat/m0-visual` → `theme` → `i18n` → `navbar`) com merge checklist por sub-branch (§11.1). D-BASE-01 documenta `basename: "/portfolio/"` alinhando com subpath GH Pages. URLs em `_root-redirect.tsx` (canonical + meta refresh) carregam `/portfolio/` explícito. |
