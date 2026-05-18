@@ -1,9 +1,9 @@
 # Handoff — Milestone M0 (cumulativo)
 
-**Versão:** 0.4.0
+**Versão:** 1.0.0
 **Data:** 2026-05-18
-**FRD:** `docs/features/m0-infra/frd-m0-infra.md` (v0.2.0)
-**Status do M0:** 3 de 4 sub-branches mergeadas; 1 em andamento (`feat/m0-navbar`).
+**FRD:** `docs/features/m0-infra/frd-m0-infra.md` (v0.3.0)
+**Status do M0:** ✅ Entregue — 4 de 4 sub-branches mergeadas.
 
 > Snapshot do estado do milestone M0 atravessando as quatro sub-branches sequenciais (`feat/m0-visual` → `feat/m0-theme` → `feat/m0-i18n` → `feat/m0-navbar`). Substitui handoffs avulsos quando o próximo agent precisa de visão de milestone, não de sub-branch. Para detalhes de cada etapa, ver os handoffs/blueprints específicos referenciados em cada seção.
 
@@ -16,9 +16,9 @@
 | 1 | `feat/m0-visual` | A + B + F.1 | ✅ **Mergeada** em `main` via PR #9 (commit `437dc00`) | `handoff-m0-visual.md` |
 | 2 | `feat/m0-theme` | C + F.2 | ✅ **Mergeada** em `main` via PR #10 (commit `8a625bc`) | `blueprint-m0-theme.md` |
 | 3 | `feat/m0-i18n` | D + F.3 | ✅ **Mergeada** em `main` via PR #11 (merge commit `bbab54a`) | `blueprint-m0-i18n.md` |
-| 4 | `feat/m0-navbar` | E + F.4 | 🟡 Branch cortada de `bbab54a`; blueprint pendente | FRD §4.1 / §11 (Fase E) |
+| 4 | `feat/m0-navbar` | E + F.4 | ✅ **Mergeada** em `main` — ver PR de fechamento de M0 | `blueprint-m0-navbar.md` |
 
-`main` HEAD atual: `bbab54a`. `feat/m0-navbar` cortada deste SHA, começando por este commit (handoff bump 0.4.0).
+`main` HEAD na abertura de M0-navbar: `bbab54a`. Branch fechou M0 com a entrega completa de Fase E + F.4 + reconciliações documentais.
 
 ---
 
@@ -182,33 +182,64 @@ Sem o fix, app funcionava mas React descartava a árvore prerenderizada e re-ren
 
 ---
 
-## 5. Sub-branch 4 — `feat/m0-navbar` ⚪
+## 5. Sub-branch 4 — `feat/m0-navbar` ✅
 
-**Branch:** não cortada.
-**Doc primário:** FRD §4.1, §11 Fase E.
+**Doc primário:** `blueprint-m0-navbar.md` (v0.1.0).
 
-### Escopo (Fase E + F.4)
-- `Sheet` (shadcn primitive), `SkipLink`, `Brand`, `Navbar`, `MobileMenu`.
-- Hooks: `useScrolled`, `useScrollSpy`.
-- Wiring em `root.tsx`.
-- **Realoca `ThemeToggle` e `LocaleToggle`** para dentro do Navbar — remover wrapper provisório `data-temporary-theme-toggle` + `data-temporary-locale-toggle` (mesmo container `<div>`, grep pelos atributos).
-- Completa `e2e/m0-infra.spec.ts` com navbar + skip-link + mobile sheet. SkipLink já tem âncora `#main` plantada nas rotas (`$lang._index.tsx`, `$lang.projects._index.tsx`, `$lang.projects.$id.tsx`) — basta apontar para ela.
-- `docs(state): record M0 delivery` — update final em `docs/scaffolding-state.md`.
-- Reconciliação documental: atualizar FRD/blueprint para refletir divergências mantidas (Geist Mono default, Asimovian, motion timings 900/700ms).
-- Atualizar este handoff: bump para 0.4.0, marcar sub-branch 3 ✅ com SHA real do merge.
+### Entregue
+- **Sheet primitive** (`src/components/ui/sheet.tsx`) gerado por `pnpm dlx shadcn@latest add sheet`. Traz `@radix-ui/react-dialog` como dependência direta.
+- **Hooks**: `src/lib/scroll.ts` (`useScrolled(threshold=8)` com initializer SSR-safe e listener passivo) + `src/lib/scrollSpy.ts` (`useScrollSpy(ids)` com `rootMargin: "-40% 0px -55% 0px"`; último intersecting vence — RN-M0-11). Ambos com pragma para SSR-guard, restante coberto 100%.
+- **Componentes**:
+  - `Brand` — monograma SVG + label "MH" (≥md) com `<Link to="/{locale}/">`. `aria-label="Marco Hansen"` hardcoded (nome próprio, sem i18n).
+  - `SkipLink` — `sr-only` → `focus:not-sr-only` apontando para `#main`.
+  - `Navbar` — sticky header (`top-0 z-50`), `data-scrolled` attribute para E2E, transição transparente → backdrop blur ao passar `scrollY > 8`. Em `/{lang}/` lista anchors `skills/experience/contact` filtrados por `FEATURES`, scrollspy via `useScrollSpy` com `aria-current="true"` no ativo. Em demais rotas mostra `← Início`. Inclui desktop `LocaleToggle` + `ThemeToggle` e instância de `MobileMenu` com `className="md:hidden"`.
+  - `MobileMenu` — Sheet right-side disparado por hamburger (`Menu` do Lucide). Anchors/back-home conforme estado da Navbar; clique fecha o sheet; `LocaleToggle` + `ThemeToggle` ao pé via `border-t`.
+- **Wiring** (`src/root.tsx`): wrapper `data-temporary-*` (theme + locale) removido. `<SkipLink />` + `<Navbar />` montados antes de `<Outlet />`. `grep -n "data-temporary-" src/root.tsx` exit 1.
+- **E2E** (`e2e/m0-infra.spec.ts`): bloco `M0 — navbar` ganha 5 testes — skip-link primeiro focusable, `data-scrolled` flip após scroll, `/pt/projects` mostra back-home, scrollspy marca contact ativo, mobile sheet abre/fecha via Escape. `e2e/_helpers.ts` ganha `navHeader`, `skipLink`, `mobileMenuTrigger`. Total no spec: 12 (3 theme + 4 i18n + 5 navbar). Suite e2e final: 20/20 verdes.
+- **Bug fix herdado**: Hero CTA "Falar comigo" passou a apontar para `#contact` em vez de `withBase("/#contact")` (PR #12 — `fix/contact-scroll-anchor`, mergeado em `main` antes do navbar). E2E `e2e/contact.spec.ts` ganhou regressão dedicada.
+- **Reconciliação documental**: FRD §4.4/§4.5/§13 ganham notas explicitando divergências entregues (Geist Mono default, `fontFamily.display` Asimovian, motion 900/700ms, easing `cubic-bezier(0.22, 0.61, 0.36, 1)`). FRD bump para v0.3.0. `blueprint-m0-visual.md` bump para v0.2.0 com callout "Pós-merge" cruzando para a FRD reconciliada.
+- **`docs/scaffolding-state.md`** bump para v1.0.0 registrando M0 entregue (linha de entrada na §8 + history).
+
+### Decisões (blueprint §7) — resoluções aplicadas
+| ID | Resolução final |
+|----|-----------------|
+| **D-SHEET-INSTALL** | ✅ `pnpm dlx shadcn@latest add sheet` aceito as-is. Lockfile diff: 1 dep direta nova (`@radix-ui/react-dialog`), demais peers já presentes. |
+| **D-LUCIDE-VERSION** | ✅ Pré-flight confirmou `Menu`/`X`/`Globe`/`Sun`/`Moon` resolvem em `lucide-react@^1.14.0`. Sem upgrade. |
+| **D-NAV-EDUCATION** | ✅ Education não entra no scrollspy nem no nav. Education continua visível na home como seção, sem âncora navegável. |
+| **D-SCROLLSPY-INITIAL** | ✅ `useScrollSpy` retorna `null` antes da primeira intersection. Sem highlight inicial. |
+| **D-SHEET-AXE** | ✅ Axe aplicado ao subtree do nosso componente; Radix Dialog internals fora do escopo. Sem violações reportadas em CT-M0-MM-08. |
+| **D-DOCS-RECONCILIATION** | ✅ FRD bump para v0.3.0 com notas em §4.4 e §4.5 + entrada §13. `blueprint-m0-visual.md` bump v0.2.0 com callout cruzado. |
+| **D-SCAFFOLDING-VERSION** | ✅ `docs/scaffolding-state.md` bump 0.3.0 → 1.0.0, adicionando linha M0 na §8 e entrada history. |
+| **D-HANDOFF-MERGE-SHA** | ✅ Opção (b) adotada — handoff v1.0.0 não cita SHA específico do merge final. Refere "PR de fechamento de M0". |
+| **D-BRAND-ARIA** | ✅ `aria-label="Marco Hansen"` hardcoded; nome próprio não traduz. Sem chave de i18n. |
+| **D-CONTACT-HASH-LINK** | ✅ Já resolvido em `fix/contact-scroll-anchor` (PR #12) antes desta sub-branch. Hero passou a usar `<a href="#contact">`. |
+| **D-NAV-MEMO-IDS** | ✅ `HOME_SPY_IDS` é constante module-level. Sem `useMemo`. |
+| **D-MOBILE-TOGGLES-DUPLICACAO** | ✅ Mobile e desktop renderizam instâncias separadas; estado compartilhado via `ThemeProvider` + `useNavigate`. Sem divergência. |
+
+### Divergências da blueprint
+1. **Commits 28 e 29 fundidos** — Navbar.tsx importa `MobileMenu`, então `feat(nav): add Navbar with desktop items and mobile sheet` veio como commit único em vez de dois sequenciais. Cobre CT-M0-NV-01..09 + CT-M0-MM-01..08 num só passo. Plano original separava para "isolar falhas"; na prática a interdependência tornaria o primeiro commit não-compilável.
+2. **`<nav aria-label>` removido** — Blueprint sugeria `aria-label={t("a11y.openMenu")}` na `<nav>` desktop; semanticamente errado (aria-label deveria descrever a nav, não o trigger do menu). `<nav>` sem aria-label é a forma padrão quando há só um landmark.
+3. **`Brand` mostra "MH" via `hidden md:inline`** — Blueprint propunha `sr-only md:not-sr-only` com `aria-label` no `<Link>`. Substituído por `aria-hidden="true"` no `<span>` "MH" porque o `aria-label` do link já fornece o accessible name "Marco Hansen"; ler "MH" depois seria redundância para leitores de tela.
 
 ---
 
-## 6. Estado da árvore após `feat/m0-i18n`
+## 6. Estado da árvore após `feat/m0-navbar` (M0 fechado)
 
-**Adicionados em M0 até agora:**
+**Adicionados em M0:**
 - `src/lib/motion.tsx` + `.test.tsx`
 - `src/lib/theme.tsx` + `.test.tsx`
 - `src/lib/data.ts` + `.test.ts`
 - `src/lib/useIsHydrated.ts`
+- `src/lib/scroll.ts` + `.test.ts`
+- `src/lib/scrollSpy.ts` + `.test.ts`
 - `src/components/Section.tsx` + `.test.tsx`
 - `src/components/ThemeToggle.tsx` + `.test.tsx`
 - `src/components/LocaleToggle.tsx` + `.test.tsx`
+- `src/components/Brand.tsx` + `.test.tsx`
+- `src/components/SkipLink.tsx` + `.test.tsx`
+- `src/components/Navbar.tsx` + `.test.tsx`
+- `src/components/MobileMenu.tsx` + `.test.tsx`
+- `src/components/ui/sheet.tsx` (vendor shadcn)
 - `src/i18n/index.ts` + `.test.ts`
 - `src/i18n/locales/{pt,en}/translation.json`
 - `src/types/i18n.ts`
@@ -216,15 +247,15 @@ Sem o fix, app funcionava mas React descartava a árvore prerenderizada e re-ren
 - `src/data/{hero,skills,experiences,education,projects}.en.json`
 - `scripts/check-i18n.ts`
 - `e2e/m0-infra.spec.ts`, `e2e/_helpers.ts`
-- Deps: `@fontsource-variable/geist`, `@fontsource-variable/geist-mono`, `@fontsource/asimovian`, `i18next`, `react-i18next`
-- Docs: `frd-m0-infra.md`, `blueprint-m0-visual.md`, `handoff-m0-visual.md`, `blueprint-m0-theme.md`, `blueprint-m0-i18n.md`
+- Deps: `@fontsource-variable/geist`, `@fontsource-variable/geist-mono`, `@fontsource/asimovian`, `i18next`, `react-i18next`, `@radix-ui/react-dialog`
+- Docs: `frd-m0-infra.md`, `blueprint-m0-visual.md`, `handoff-m0-visual.md`, `blueprint-m0-theme.md`, `blueprint-m0-i18n.md`, `blueprint-m0-navbar.md`
 
 **Renomeados em M0:**
 - `src/data/{hero,skills,experiences,education,projects}.json` → `*.pt.json`
 - `src/routes/_index.tsx` → `src/routes/$lang._index.tsx`
 - `src/routes/projects.{_index,$id}.tsx` → `src/routes/$lang.projects.{_index,$id}.tsx`
 
-**Modificados em M0 até agora:**
+**Modificados em M0:**
 - `src/app.css` (paleta + fonts + keyframes + `:root`/`.dark` fora de `@layer base`)
 - `tailwind.config.js` (fontFamily + fontSize tokens)
 - `src/components/{Hero,Skills,Experience,Education,Contact,ContactForm}.tsx` (i18n)
@@ -238,17 +269,21 @@ Sem o fix, app funcionava mas React descartava a árvore prerenderizada e re-ren
 - `index.html` (bootstrap script inline antes do title)
 - `src/routes.ts` (`index(_root-redirect)` + `layout($lang, [...])`)
 - `react-router.config.ts` (prerender 5 rotas)
-- `package.json` (`prebuild` chama `check:assets && check:i18n`; `lint` prefixa `react-router typegen`)
+- `package.json` (`prebuild` chama `check:assets && check:i18n`; `lint` prefixa `react-router typegen`; `@radix-ui/react-dialog` adicionado)
 - `scripts/check-assets.ts` (lê `hero.pt.json`)
 - `e2e/{home,contact,projects-list,project-detail}.spec.ts` (paths `/pt/...`)
+- `e2e/contact.spec.ts` (regressão "Falar comigo" via PR #12)
+- `src/components/Hero.tsx` + `.test.tsx` (`href="#contact"` em vez de `withBase("/#contact")` — PR #12)
+- `src/components/ui/**` (sheet adicionado; demais primitives intocados por convenção)
 - `src/types/domain.ts` (Project optional fields ganham `| undefined`)
 - `docs/spec.md` (§5 sem i18n/theme; §3 com M0)
+- `docs/scaffolding-state.md` bump 1.0.0 (M0 entregue)
+- `docs/features/m0-infra/frd-m0-infra.md` bump 0.3.0 (notas de divergência em §4.4 e §4.5; entrada em §13)
+- `docs/features/m0-infra/blueprint-m0-visual.md` bump 0.2.0 (callout pós-merge)
 
-**Intactos** (out-of-scope respeitado pelas sub-branches concluídas):
-- Navbar/SkipLink/MobileMenu/Sheet/useScrolled/useScrollSpy — **não criados ainda**
-- `src/components/ui/**` (vendor shadcn intocado por convenção)
+**Intactos** (out-of-scope respeitado por M0):
+- `src/components/ui/{badge,button,card,input,textarea}.tsx` (vendor shadcn)
 - `src/lib/{features,withBase,contactSubmit,cn,filterProjects}.ts`
-- `docs/scaffolding-state.md` (reservado para `feat/m0-navbar`)
 
 ---
 
@@ -272,22 +307,24 @@ Sem o fix, app funcionava mas React descartava a árvore prerenderizada e re-ren
 | `feat/m0-i18n` | `pnpm run lint` prefixa `react-router typegen` | Mergeado; necessário para CI cold-start não quebrar em `Route.MetaArgs` |
 | `feat/m0-i18n` | Prerender static `/` emite `<Navigate>` + `meta refresh` para `/portfolio/pt/` | Mergeado; warning RR7 `<Navigate> in StaticRouter` é benigno |
 | `feat/m0-i18n` | `<html lang>` muta reativamente em `$lang.tsx` via `useEffect` | Mergeado; coberto por `suppressHydrationWarning` do `feat/m0-theme` |
+| `feat/m0-navbar` | Sheet primitive trazida; `@radix-ui/react-dialog` direct dep | Mergeado |
+| `feat/m0-navbar` | Navbar `data-scrolled` attribute para E2E (não depende de classes Tailwind voláteis) | Mergeado |
+| `feat/m0-navbar` | `useScrollSpy` rootMargin `-40% 0px -55% 0px`; último intersecting vence | Mergeado |
+| `feat/m0-navbar` | Education **fora** do scrollspy/nav (continua visível como seção) | Mergeado; D-NAV-EDUCATION resolvida |
+| `feat/m0-navbar` | `Brand` `aria-label="Marco Hansen"` hardcoded (nome próprio) | Mergeado |
+| `feat/m0-navbar` | LocaleToggle + ThemeToggle agora vivem dentro do Navbar (desktop) e do MobileMenu Sheet | Mergeado; wrapper `data-temporary-*` removido |
+| `feat/m0-navbar` | Hero CTA "Falar comigo" usa `<a href="#contact">` (PR #12 — bug fix herdado) | Mergeado |
 
 ---
 
-## 8. Próxima ação
+## 8. M0 fechado
 
-`feat/m0-navbar` já cortada de `bbab54a`. Este commit (handoff bump 0.4.0) abre a branch.
+M0 entregue. Próximos passos:
 
-1. **Escrever blueprint** `blueprint-m0-navbar.md` (Fase E + F.4) — espelhar formato dos blueprints anteriores. Decisões a fechar antes de codar:
-   - Estrutura do Navbar (sticky? mobile sheet vs drawer? scrollspy ativo via IntersectionObserver?)
-   - Realocação dos toggles: grep `data-temporary-theme-toggle` **e** `data-temporary-locale-toggle` simultaneamente e mover ambos para dentro do Navbar
-   - SkipLink target: `#main` (já existe nas rotas `$lang.*`)
-   - Reconciliação documental final: atualizar FRD/blueprint para refletir Geist Mono default + Asimovian display + motion 900/700ms
-   - Atualizar `docs/scaffolding-state.md` registrando M0 entregue
-2. **Implementar Navbar + SkipLink + MobileMenu + hooks de scroll** (`useScrolled`, `useScrollSpy`); wire em `root.tsx`; remover wrapper provisório dos toggles.
-3. **Completar `e2e/m0-infra.spec.ts`** com cobertura navbar (sticky, mobile sheet, skip-link).
-4. Abrir PR, mergear em `main`. Este handoff bump para 1.0.0, M0 fechado.
+1. **M2 — Projetos**. Único módulo de produto pendente. `filterProjects` + `projectSchema` já 100% cobertos; `$lang.projects.{_index,$id}.tsx` precisam consumir `getProjects(locale)` e renderizar filtros + detalhe. Feature flag `FEATURES.projects` ainda em `false`.
+2. **Revisão humana das traduções EN** continua pendente (placeholder funcional). Marco revisa antes do release público.
+3. **Upgrade de `lucide-react`** (`^1.14.0` → versão atual, ex. `^0.4xx`) — issue separada se necessário. Foi mantido nesta versão durante todo o M0 porque os ícones necessários (Menu/X/Globe/Sun/Moon) resolvem; upgrade é tarefa de housekeeping.
+4. **Warning RR7 `<Navigate> in StaticRouter`** durante prerender continua benigno; pode ser silenciado mais tarde com loader-based redirect se ruído incomodar (`_root-redirect.tsx` e `$lang.tsx`).
 
 ---
 
@@ -295,6 +332,7 @@ Sem o fix, app funcionava mas React descartava a árvore prerenderizada e re-ren
 
 | Versão | Data | Mudança |
 |--------|------|---------|
+| 1.0.0 | 2026-05-18 | M0 ✅ Entregue. `feat/m0-navbar` conclui Fase E + F.4: Sheet primitive, hooks `useScrolled`/`useScrollSpy`, componentes `Brand`/`SkipLink`/`Navbar`/`MobileMenu`, wiring em `root.tsx` (toggles realocados, wrapper provisório removido), 5 E2Es novos. Reconciliação documental aplicada: FRD bump v0.3.0, `blueprint-m0-visual.md` bump v0.2.0, `docs/scaffolding-state.md` bump v1.0.0. Bug fix de `fix/contact-scroll-anchor` (PR #12) absorvido no histórico de M0. Sub-branch 4 ✅; tabela §7 marca decisões `feat/m0-navbar` como Mergeado. §8 reescrita para próximos passos pós-M0 (M2). |
 | 0.4.0 | 2026-05-18 | `feat/m0-i18n` mergeada (PR #11, merge commit `bbab54a`). `main` avança 17 commits. `feat/m0-navbar` cortada deste SHA; este commit é o primeiro da branch. Sub-branch 3 → ✅; tabela §7 marca todas as decisões `feat/m0-i18n` como Mergeado. §8 reescrita: PR/bump já feitos, próximo passo é blueprint `feat/m0-navbar`. |
 | 0.3.0 | 2026-05-18 | `feat/m0-i18n` concluída — PR #11 aberto, CI verde, pronto para merge. 16 commits (15 do blueprint + 1 fix CI). Entrega i18next + PT/EN, rotas locale-prefixadas, LocaleToggle, check-i18n guard, refactor de todos os componentes e specs E2E migradas para `/pt/`. 4 divergências da blueprint documentadas. Próxima ação migra para `feat/m0-navbar`. |
 | 0.2.0 | 2026-05-18 | `feat/m0-theme` mergeada (PR #10, `8a625bc`). Adiciona divergência crítica vs blueprint (hydration mismatch) com fix `9ae9b29`. 7 commits totais na sub-branch. Próxima ação migra para `feat/m0-i18n`. |
