@@ -10,8 +10,9 @@
   "scripts": {
     "dev": "react-router dev",
     "build": "react-router build",
-    "prebuild": "node --import tsx scripts/check-assets.ts",
+    "prebuild": "pnpm run check:assets && pnpm run check:i18n",
     "check:assets": "node --import tsx scripts/check-assets.ts",
+    "check:i18n": "node --import tsx scripts/check-i18n.ts",
     "start": "react-router-serve ./build/server/index.js",
     "preview": "vite preview",
     "typecheck": "react-router typegen && tsc --noEmit",
