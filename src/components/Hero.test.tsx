@@ -41,7 +41,7 @@ describe("Hero", () => {
 
   it("renders CV button with download href and versionLabel", () => {
     render(<Hero hero={hero} features={allOff} />)
-    const cv = screen.getByRole("link", { name: /Download CV/ })
+    const cv = screen.getByRole("link", { name: /Baixar CV/i })
     expect(cv).toHaveAttribute("href", "/cv/cv-2026-05.pdf")
     expect(cv).toHaveAttribute("download")
     expect(cv).toHaveTextContent("mai/2026")
