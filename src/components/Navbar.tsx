@@ -6,7 +6,6 @@ import { isLocale } from "@/i18n"
 import { FEATURES } from "@/lib/features"
 import { useScrolled } from "@/lib/scroll"
 import { useScrollSpy } from "@/lib/scrollSpy"
-import { Brand } from "@/components/Brand"
 import { LocaleToggle } from "@/components/LocaleToggle"
 import { ThemeToggle } from "@/components/ThemeToggle"
 import { MobileMenu } from "@/components/MobileMenu"
@@ -47,9 +46,7 @@ export function Navbar() {
           : "border-b border-transparent bg-transparent",
       )}
     >
-      <div className="container mx-auto flex h-16 items-center justify-between px-4">
-        <Brand />
-
+      <div className="container mx-auto flex h-16 items-center justify-end gap-4 px-4">
         <nav className="hidden md:block">
           {onHome ? (
             <ul className="flex items-center gap-1">

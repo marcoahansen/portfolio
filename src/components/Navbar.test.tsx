@@ -49,12 +49,9 @@ afterEach(() => {
 })
 
 describe("Navbar", () => {
-  it("CT-M0-NV-01: /pt/ renders Brand + 3 anchor items (PT labels)", () => {
+  it("CT-M0-NV-01: /pt/ renders 3 anchor items (PT labels)", () => {
     renderAt("/portfolio/pt/")
-    expect(screen.getByRole("link", { name: "Marco Hansen" })).toHaveAttribute(
-      "href",
-      "/portfolio/pt/",
-    )
+    expect(screen.queryByRole("link", { name: "Marco Hansen" })).toBeNull()
     const nav = screen.getByRole("navigation")
     expect(within(nav).getByRole("link", { name: /Habilidades/ })).toHaveAttribute(
       "href",
@@ -67,7 +64,7 @@ describe("Navbar", () => {
     expect(within(nav).getByRole("link", { name: /Contato/ })).toHaveAttribute("href", "#contact")
   })
 
-  it("CT-M0-NV-02: /en/ renders Brand + 3 anchor items (EN labels)", async () => {
+  it("CT-M0-NV-02: /en/ renders 3 anchor items (EN labels)", async () => {
     await i18n.changeLanguage("en")
     renderAt("/portfolio/en/")
     const nav = screen.getByRole("navigation")

@@ -36,7 +36,7 @@ export function MobileMenu({ onHome, locale, visibleAnchors, activeId, className
       </SheetTrigger>
       <SheetContent side="right" className="w-72">
         <SheetHeader>
-          <SheetTitle className="font-display tracking-wider">MH</SheetTitle>
+          <SheetTitle className="sr-only">{t("a11y.openMenu")}</SheetTitle>
         </SheetHeader>
 
         {onHome ? (
