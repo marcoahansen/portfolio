@@ -1,5 +1,12 @@
 import { expect, test } from "@playwright/test"
-import { localeButton, themeButton, waitForHydration } from "./_helpers"
+import {
+  localeButton,
+  mobileMenuTrigger,
+  navHeader,
+  skipLink,
+  themeButton,
+  waitForHydration,
+} from "./_helpers"
 
 test.describe("M0 — theme", () => {
   test("toggles .dark on html element", async ({ page }) => {
@@ -58,5 +65,50 @@ test.describe("M0 — i18n", () => {
     await page.goto("en/")
     await waitForHydration(page)
     await expect(page.locator("html")).toHaveAttribute("lang", "en-US")
+  })
+})
+
+test.describe("M0 — navbar", () => {
+  test("skip-link is first focusable and points to #main", async ({ page }) => {
+    await page.goto("pt/")
+    await waitForHydration(page)
+    await page.keyboard.press("Tab")
+    await expect(skipLink(page)).toBeFocused()
+    await expect(skipLink(page)).toHaveAttribute("href", "#main")
+  })
+
+  test("sticky header reports data-scrolled='true' after scroll", async ({ page }) => {
+    await page.goto("pt/")
+    await waitForHydration(page)
+    await expect(navHeader(page)).toHaveAttribute("data-scrolled", "false")
+    await page.evaluate(() => window.scrollBy(0, 200))
+    await expect(navHeader(page)).toHaveAttribute("data-scrolled", "true")
+  })
+
+  test("/pt/projects renders back-home link, no anchor list", async ({ page }) => {
+    await page.goto("pt/projects")
+    await waitForHydration(page)
+    const nav = navHeader(page).getByRole("navigation")
+    await expect(nav.getByRole("link", { name: /Início/i })).toBeVisible()
+    await expect(nav.getByRole("link", { name: /Habilidades/i })).toHaveCount(0)
+  })
+
+  test("scrollspy marks contact as active when in viewport", async ({ page }) => {
+    await page.goto("pt/")
+    await waitForHydration(page)
+    await page.locator("#contact").scrollIntoViewIfNeeded()
+    await expect(
+      navHeader(page).locator('a[href="#contact"][aria-current="true"]').first(),
+    ).toBeVisible()
+  })
+
+  test("mobile sheet opens via hamburger and closes on Escape", async ({ page }) => {
+    await page.setViewportSize({ width: 375, height: 700 })
+    await page.goto("pt/")
+    await mobileMenuTrigger(page).waitFor({ state: "visible" })
+    await mobileMenuTrigger(page).click()
+    await expect(page.getByRole("dialog")).toBeVisible()
+    await page.keyboard.press("Escape")
+    await expect(page.getByRole("dialog")).toBeHidden()
   })
 })
