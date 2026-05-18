@@ -1,29 +1,19 @@
-import type { Route } from "./+types/_index"
-import heroData from "@/data/hero.pt.json"
-import skillsData from "@/data/skills.pt.json"
-import experiencesData from "@/data/experiences.pt.json"
-import educationData from "@/data/education.pt.json"
+import type { Route } from "./+types/$lang._index"
+import { useTranslation } from "react-i18next"
+import { isLocale } from "@/i18n"
+import { getEducation, getExperiences, getHero, getSkills } from "@/lib/data"
 import { Hero } from "@/components/Hero"
 import { Skills } from "@/components/Skills"
 import { Experience } from "@/components/Experience"
 import { Education } from "@/components/Education"
 import { Contact } from "@/components/Contact"
-import {
-  validateHero,
-  validateSkills,
-  validateExperiences,
-  validateEducation,
-} from "@/lib/validation"
-import { sortByRecency } from "@/lib/period"
 import { FEATURES } from "@/lib/features"
 import { sendContactEmail } from "@/lib/contactSubmit"
 
-const hero = validateHero(heroData)
-const skills = validateSkills(skillsData)
-const experiences = sortByRecency(validateExperiences(experiencesData))
-const education = sortByRecency(validateEducation(educationData))
-
-export function meta(_args: Route.MetaArgs): Route.MetaDescriptors {
+export function meta(args: Route.MetaArgs): Route.MetaDescriptors {
+  const lang = args.params.lang
+  const locale = isLocale(lang) ? lang : "pt"
+  const hero = getHero(locale)
   return [
     { title: `${hero.displayName} — ${hero.role}` },
     { name: "description", content: hero.tagline },
@@ -31,8 +21,15 @@ export function meta(_args: Route.MetaArgs): Route.MetaDescriptors {
 }
 
 export default function HomeRoute() {
+  const { i18n } = useTranslation()
+  const locale = isLocale(i18n.language) ? i18n.language : "pt"
+  const hero = getHero(locale)
+  const skills = getSkills(locale)
+  const experiences = getExperiences(locale)
+  const education = getEducation(locale)
+
   return (
-    <main>
+    <main id="main">
       <Hero hero={hero} />
       {FEATURES.skills && <Skills skills={skills} />}
       {FEATURES.experience && (
