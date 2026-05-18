@@ -57,6 +57,25 @@ export const mockObservers: MockIntersectionObserver[] = []
   globalThis as unknown as { IntersectionObserver: typeof IntersectionObserver }
 ).IntersectionObserver = MockIntersectionObserver
 
+const noop = () => undefined
+
+if (typeof window !== "undefined" && !window.matchMedia) {
+  Object.defineProperty(window, "matchMedia", {
+    writable: true,
+    configurable: true,
+    value: (query: string) => ({
+      matches: false,
+      media: query,
+      onchange: null,
+      addEventListener: noop,
+      removeEventListener: noop,
+      addListener: noop,
+      removeListener: noop,
+      dispatchEvent: () => false,
+    }),
+  })
+}
+
 afterEach(() => {
   mockObservers.length = 0
   cleanup()
