@@ -1,8 +1,8 @@
 import { Links, Meta, Outlet, Scripts, ScrollRestoration } from "react-router"
 import type { ReactNode } from "react"
 import { ThemeProvider } from "@/lib/theme"
-import { ThemeToggle } from "@/components/ThemeToggle"
-import { LocaleToggle } from "@/components/LocaleToggle"
+import { Navbar } from "@/components/Navbar"
+import { SkipLink } from "@/components/SkipLink"
 import "@/i18n"
 import "./app.css"
 
@@ -30,14 +30,8 @@ export function Layout({ children }: { children: ReactNode }) {
 export default function Root() {
   return (
     <ThemeProvider>
-      <div
-        className="fixed right-4 top-4 z-50 flex items-center gap-2"
-        data-temporary-theme-toggle
-        data-temporary-locale-toggle
-      >
-        <LocaleToggle />
-        <ThemeToggle />
-      </div>
+      <SkipLink />
+      <Navbar />
       <Outlet />
     </ThemeProvider>
   )
