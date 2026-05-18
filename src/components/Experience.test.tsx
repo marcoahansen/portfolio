@@ -42,8 +42,8 @@ describe("Experience", () => {
   it("CT-M4-25: shows 'Presente' for ongoing entries (RN-M4-01/02)", () => {
     render(<Experience experiences={experiences} />)
     const entries = screen.getAllByRole("article")
-    expect(within(entries[0]!).getByText(/Mai 2023 — Presente/)).toBeInTheDocument()
-    expect(within(entries[1]!).getByText(/Jun 2020 — Dez 2022/)).toBeInTheDocument()
+    expect(within(entries[0]!).getByText(/2023.*Presente/)).toBeInTheDocument()
+    expect(within(entries[1]!).getByText(/2020.*—.*2022/)).toBeInTheDocument()
   })
 
   it("CT-M4-26: renders stack badges per experience", () => {

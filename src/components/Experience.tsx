@@ -12,7 +12,7 @@ function ExperienceCard({ item }: { item: ExperienceData }) {
       <Card className="flex h-full flex-col bg-card/60 backdrop-blur">
         <CardHeader className="space-y-1 pb-3">
           <p className="font-mono text-xs font-medium uppercase tracking-widest text-muted-foreground">
-            {formatPeriod(item.startDate, item.endDate)}
+            {formatPeriod(item.startDate, item.endDate, "pt")}
           </p>
           <h3 className="text-lg font-semibold tracking-tight">{item.role}</h3>
           <p className="text-sm font-medium text-primary/90">{item.company}</p>

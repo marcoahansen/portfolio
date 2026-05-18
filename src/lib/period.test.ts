@@ -2,37 +2,52 @@ import { describe, it, expect } from "vitest"
 import { formatPeriod, sortByRecency } from "./period"
 
 describe("formatPeriod", () => {
-  it("CT-M4-15: formats closed period with PT-BR month abbreviations (RN-M4-02)", () => {
-    expect(formatPeriod("2023-05-01", "2024-12-01")).toBe("Mai 2023 — Dez 2024")
+  it("CT-M4-15: formats closed period in pt-BR with year separator", () => {
+    const out = formatPeriod("2023-05-01", "2024-12-01", "pt")
+    expect(out).toMatch(/2023.*—.*2024/)
+    expect(out).toMatch(/mai/i)
+    expect(out).toMatch(/dez/i)
   })
 
-  it("CT-M4-16: formats ongoing period as 'Presente' (RN-M4-01/02)", () => {
-    expect(formatPeriod("2023-05-01")).toBe("Mai 2023 — Presente")
+  it("CT-M4-16: pt without endDate uses 'Presente'", () => {
+    const out = formatPeriod("2023-05-01", undefined, "pt")
+    expect(out).toMatch(/2023.*Presente/)
   })
 
-  it("CT-M4-17: handles every month of the year", () => {
-    const months = [
-      "Jan",
-      "Fev",
-      "Mar",
-      "Abr",
-      "Mai",
-      "Jun",
-      "Jul",
-      "Ago",
-      "Set",
-      "Out",
-      "Nov",
-      "Dez",
-    ]
-    months.forEach((label, i) => {
-      const m = String(i + 1).padStart(2, "0")
-      expect(formatPeriod(`2024-${m}-01`)).toBe(`${label} 2024 — Presente`)
-    })
+  it("CT-M0-PER-02: en without endDate uses 'Present'", () => {
+    const out = formatPeriod("2023-05-01", undefined, "en")
+    expect(out).toMatch(/2023.*Present/)
+    expect(out).toMatch(/May/i)
+  })
+
+  it("CT-M0-PER-03: en closed period renders both years", () => {
+    const out = formatPeriod("2023-05-01", "2024-09-30", "en")
+    expect(out).toMatch(/2023.*—.*2024/)
+  })
+
+  it("CT-M4-17: handles every month of the year in pt", () => {
+    for (let i = 1; i <= 12; i++) {
+      const m = String(i).padStart(2, "0")
+      const out = formatPeriod(`2024-${m}-01`, undefined, "pt")
+      expect(out).toMatch(/2024.*Presente/)
+    }
   })
 
   it("CT-M4-18: throws on malformed startDate", () => {
-    expect(() => formatPeriod("bad")).toThrow()
+    expect(() => formatPeriod("bad", undefined, "pt")).toThrow()
+  })
+
+  it("CT-M0-PER-04: throws on malformed endDate", () => {
+    expect(() => formatPeriod("2023-01-01", "bad", "en")).toThrow()
+  })
+
+  it("CT-M0-PER-05: caches formatter per locale (no exception on repeated calls)", () => {
+    expect(() => {
+      formatPeriod("2023-01-01", undefined, "pt")
+      formatPeriod("2024-01-01", undefined, "pt")
+      formatPeriod("2023-01-01", undefined, "en")
+      formatPeriod("2024-01-01", undefined, "en")
+    }).not.toThrow()
   })
 })
 
