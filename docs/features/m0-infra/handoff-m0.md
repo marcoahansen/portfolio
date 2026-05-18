@@ -1,9 +1,9 @@
 # Handoff — Milestone M0 (cumulativo)
 
-**Versão:** 1.0.0
+**Versão:** 1.1.0
 **Data:** 2026-05-18
 **FRD:** `docs/features/m0-infra/frd-m0-infra.md` (v0.3.0)
-**Status do M0:** ✅ Entregue — 4 de 4 sub-branches mergeadas.
+**Status do M0:** ✅ Entregue — 4 de 4 sub-branches mergeadas; PR #13 aberto com polish de UX (Brand removido, toggles vira switch).
 
 > Snapshot do estado do milestone M0 atravessando as quatro sub-branches sequenciais (`feat/m0-visual` → `feat/m0-theme` → `feat/m0-i18n` → `feat/m0-navbar`). Substitui handoffs avulsos quando o próximo agent precisa de visão de milestone, não de sub-branch. Para detalhes de cada etapa, ver os handoffs/blueprints específicos referenciados em cada seção.
 
@@ -190,10 +190,11 @@ Sem o fix, app funcionava mas React descartava a árvore prerenderizada e re-ren
 - **Sheet primitive** (`src/components/ui/sheet.tsx`) gerado por `pnpm dlx shadcn@latest add sheet`. Traz `@radix-ui/react-dialog` como dependência direta.
 - **Hooks**: `src/lib/scroll.ts` (`useScrolled(threshold=8)` com initializer SSR-safe e listener passivo) + `src/lib/scrollSpy.ts` (`useScrollSpy(ids)` com `rootMargin: "-40% 0px -55% 0px"`; último intersecting vence — RN-M0-11). Ambos com pragma para SSR-guard, restante coberto 100%.
 - **Componentes**:
-  - `Brand` — monograma SVG + label "MH" (≥md) com `<Link to="/{locale}/">`. `aria-label="Marco Hansen"` hardcoded (nome próprio, sem i18n).
   - `SkipLink` — `sr-only` → `focus:not-sr-only` apontando para `#main`.
-  - `Navbar` — sticky header (`top-0 z-50`), `data-scrolled` attribute para E2E, transição transparente → backdrop blur ao passar `scrollY > 8`. Em `/{lang}/` lista anchors `skills/experience/contact` filtrados por `FEATURES`, scrollspy via `useScrollSpy` com `aria-current="true"` no ativo. Em demais rotas mostra `← Início`. Inclui desktop `LocaleToggle` + `ThemeToggle` e instância de `MobileMenu` com `className="md:hidden"`.
-  - `MobileMenu` — Sheet right-side disparado por hamburger (`Menu` do Lucide). Anchors/back-home conforme estado da Navbar; clique fecha o sheet; `LocaleToggle` + `ThemeToggle` ao pé via `border-t`.
+  - `Navbar` — sticky header (`top-0 z-50`), `data-scrolled` attribute para E2E, transição transparente → backdrop blur ao passar `scrollY > 8`. Em `/{lang}/` lista anchors `skills/experience/contact` filtrados por `FEATURES`, scrollspy via `useScrollSpy` com `aria-current="true"` no ativo. Em demais rotas mostra `← Início`. Container usa `justify-end gap-4` (sem brand). Inclui desktop `LocaleToggle` + `ThemeToggle` e instância de `MobileMenu` com `className="md:hidden"`.
+  - `MobileMenu` — Sheet right-side disparado por hamburger (`Menu` do Lucide). Anchors/back-home conforme estado da Navbar; clique fecha o sheet; `LocaleToggle` + `ThemeToggle` ao pé via `border-t`. `SheetTitle` `sr-only` (mantém accessible name do Radix Dialog sem render visual).
+- **`Brand` foi adicionado e depois removido no mesmo PR** — decisão de produto pós-implementação inicial (usuário rejeitou monograma SVG e label "MH"). `src/components/Brand.tsx` + `.test.tsx` deletados antes do PR #13. Navbar e MobileMenu não montam brand.
+- **Toggles vira switch (Radix Switch)** — pós-implementação inicial, `ThemeToggle` e `LocaleToggle` migraram de `<Button>` ghost para `SwitchPrimitives.Root` + `Thumb` com ícone/label dentro do thumb. ThemeToggle: track 28×48, thumb 20×20 com Sun (light) / Moon (dark). LocaleToggle: track 28×56, thumb 20×24 com label "PT"/"EN" em mono uppercase. `role="switch"` + `aria-checked` substitui `role="button"`. Trouxe `@radix-ui/react-switch` como dep direta.
 - **Wiring** (`src/root.tsx`): wrapper `data-temporary-*` (theme + locale) removido. `<SkipLink />` + `<Navbar />` montados antes de `<Outlet />`. `grep -n "data-temporary-" src/root.tsx` exit 1.
 - **E2E** (`e2e/m0-infra.spec.ts`): bloco `M0 — navbar` ganha 5 testes — skip-link primeiro focusable, `data-scrolled` flip após scroll, `/pt/projects` mostra back-home, scrollspy marca contact ativo, mobile sheet abre/fecha via Escape. `e2e/_helpers.ts` ganha `navHeader`, `skipLink`, `mobileMenuTrigger`. Total no spec: 12 (3 theme + 4 i18n + 5 navbar). Suite e2e final: 20/20 verdes.
 - **Bug fix herdado**: Hero CTA "Falar comigo" passou a apontar para `#contact` em vez de `withBase("/#contact")` (PR #12 — `fix/contact-scroll-anchor`, mergeado em `main` antes do navbar). E2E `e2e/contact.spec.ts` ganhou regressão dedicada.
@@ -235,11 +236,10 @@ Sem o fix, app funcionava mas React descartava a árvore prerenderizada e re-ren
 - `src/components/Section.tsx` + `.test.tsx`
 - `src/components/ThemeToggle.tsx` + `.test.tsx`
 - `src/components/LocaleToggle.tsx` + `.test.tsx`
-- `src/components/Brand.tsx` + `.test.tsx`
 - `src/components/SkipLink.tsx` + `.test.tsx`
 - `src/components/Navbar.tsx` + `.test.tsx`
 - `src/components/MobileMenu.tsx` + `.test.tsx`
-- `src/components/ui/sheet.tsx` (vendor shadcn)
+- `src/components/ui/sheet.tsx` + `src/components/ui/switch.tsx` (vendor shadcn)
 - `src/i18n/index.ts` + `.test.ts`
 - `src/i18n/locales/{pt,en}/translation.json`
 - `src/types/i18n.ts`
@@ -247,13 +247,16 @@ Sem o fix, app funcionava mas React descartava a árvore prerenderizada e re-ren
 - `src/data/{hero,skills,experiences,education,projects}.en.json`
 - `scripts/check-i18n.ts`
 - `e2e/m0-infra.spec.ts`, `e2e/_helpers.ts`
-- Deps: `@fontsource-variable/geist`, `@fontsource-variable/geist-mono`, `@fontsource/asimovian`, `i18next`, `react-i18next`, `@radix-ui/react-dialog`
+- Deps: `@fontsource-variable/geist`, `@fontsource-variable/geist-mono`, `@fontsource/asimovian`, `i18next`, `react-i18next`, `@radix-ui/react-dialog`, `@radix-ui/react-switch`
 - Docs: `frd-m0-infra.md`, `blueprint-m0-visual.md`, `handoff-m0-visual.md`, `blueprint-m0-theme.md`, `blueprint-m0-i18n.md`, `blueprint-m0-navbar.md`
 
 **Renomeados em M0:**
 - `src/data/{hero,skills,experiences,education,projects}.json` → `*.pt.json`
 - `src/routes/_index.tsx` → `src/routes/$lang._index.tsx`
 - `src/routes/projects.{_index,$id}.tsx` → `src/routes/$lang.projects.{_index,$id}.tsx`
+
+**Adicionados e depois deletados em M0 (PR #13):**
+- `src/components/Brand.tsx` + `.test.tsx` — Brand entrou e saiu no mesmo PR a pedido do usuário. Sem rastro no merge.
 
 **Modificados em M0:**
 - `src/app.css` (paleta + fonts + keyframes + `:root`/`.dark` fora de `@layer base`)
@@ -274,6 +277,8 @@ Sem o fix, app funcionava mas React descartava a árvore prerenderizada e re-ren
 - `e2e/{home,contact,projects-list,project-detail}.spec.ts` (paths `/pt/...`)
 - `e2e/contact.spec.ts` (regressão "Falar comigo" via PR #12)
 - `src/components/Hero.tsx` + `.test.tsx` (`href="#contact"` em vez de `withBase("/#contact")` — PR #12)
+- `src/components/ThemeToggle.tsx` + `.test.tsx` (refatorado para Radix Switch com Sun/Moon dentro do thumb)
+- `src/components/LocaleToggle.tsx` + `.test.tsx` (refatorado para Radix Switch com PT/EN dentro do thumb)
 - `src/components/ui/**` (sheet adicionado; demais primitives intocados por convenção)
 - `src/types/domain.ts` (Project optional fields ganham `| undefined`)
 - `docs/spec.md` (§5 sem i18n/theme; §3 com M0)
@@ -314,6 +319,8 @@ Sem o fix, app funcionava mas React descartava a árvore prerenderizada e re-ren
 | `feat/m0-navbar` | `Brand` `aria-label="Marco Hansen"` hardcoded (nome próprio) | Mergeado |
 | `feat/m0-navbar` | LocaleToggle + ThemeToggle agora vivem dentro do Navbar (desktop) e do MobileMenu Sheet | Mergeado; wrapper `data-temporary-*` removido |
 | `feat/m0-navbar` | Hero CTA "Falar comigo" usa `<a href="#contact">` (PR #12 — bug fix herdado) | Mergeado |
+| `feat/m0-navbar` (PR #13) | Brand removido inteiro do Navbar e do MobileMenu (decisão de produto) | Aplicado pré-merge |
+| `feat/m0-navbar` (PR #13) | `ThemeToggle` + `LocaleToggle` viram Radix Switch com ícone/label no thumb (`role="switch"`, `aria-checked`); helpers E2E migrados | Aplicado pré-merge; `@radix-ui/react-switch` direct dep |
 
 ---
 
@@ -332,6 +339,7 @@ M0 entregue. Próximos passos:
 
 | Versão | Data | Mudança |
 |--------|------|---------|
+| 1.1.0 | 2026-05-18 | UX polish em cima do PR #13 antes do merge: Brand removido inteiro (Navbar + MobileMenu), toggles convertidos para Radix Switch com ícone/label no thumb (`@radix-ui/react-switch` direct dep). `blueprint-m0-navbar.md` bump para v0.2.0 com callout pós-merge; §5/§6/§7 deste handoff atualizam para refletir o estado real do que entra em `main`. Brand entra e sai no mesmo PR — sem rastro pós-merge. |
 | 1.0.0 | 2026-05-18 | M0 ✅ Entregue. `feat/m0-navbar` conclui Fase E + F.4: Sheet primitive, hooks `useScrolled`/`useScrollSpy`, componentes `Brand`/`SkipLink`/`Navbar`/`MobileMenu`, wiring em `root.tsx` (toggles realocados, wrapper provisório removido), 5 E2Es novos. Reconciliação documental aplicada: FRD bump v0.3.0, `blueprint-m0-visual.md` bump v0.2.0, `docs/scaffolding-state.md` bump v1.0.0. Bug fix de `fix/contact-scroll-anchor` (PR #12) absorvido no histórico de M0. Sub-branch 4 ✅; tabela §7 marca decisões `feat/m0-navbar` como Mergeado. §8 reescrita para próximos passos pós-M0 (M2). |
 | 0.4.0 | 2026-05-18 | `feat/m0-i18n` mergeada (PR #11, merge commit `bbab54a`). `main` avança 17 commits. `feat/m0-navbar` cortada deste SHA; este commit é o primeiro da branch. Sub-branch 3 → ✅; tabela §7 marca todas as decisões `feat/m0-i18n` como Mergeado. §8 reescrita: PR/bump já feitos, próximo passo é blueprint `feat/m0-navbar`. |
 | 0.3.0 | 2026-05-18 | `feat/m0-i18n` concluída — PR #11 aberto, CI verde, pronto para merge. 16 commits (15 do blueprint + 1 fix CI). Entrega i18next + PT/EN, rotas locale-prefixadas, LocaleToggle, check-i18n guard, refactor de todos os componentes e specs E2E migradas para `/pt/`. 4 divergências da blueprint documentadas. Próxima ação migra para `feat/m0-navbar`. |

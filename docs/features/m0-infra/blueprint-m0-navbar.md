@@ -1,13 +1,18 @@
 # Blueprint — `feat/m0-navbar` (Fase E + F.4 do FRD M0)
 
-**Versão:** 0.1.0
-**Status:** Draft — aguardando aval das decisões §7 antes de implementar
-**FRD de origem:** `docs/features/m0-infra/frd-m0-infra.md` (v0.2.0)
+**Versão:** 0.2.0
+**Status:** Implementado — entregue via PR #13 (`feat/m0-navbar`)
+**FRD de origem:** `docs/features/m0-infra/frd-m0-infra.md` (v0.3.0)
 **Handoff anterior:** `docs/features/m0-infra/handoff-m0.md` v0.4.0
 **Branch base:** `main` (HEAD `bbab54a` — merge de `feat/m0-i18n`)
 **Branch alvo:** `feat/m0-navbar` → `main` (último PR antes de fechar M0)
 
 > Plano da **última** sub-branch de M0. Cobre Fase E (Navbar + SkipLink + Brand + MobileMenu + `useScrolled` + `useScrollSpy` + Sheet primitive) e Fase F.4 (E2E navbar + skip-link + sheet mobile + reconciliação documental + `docs/scaffolding-state.md`). Realoca os dois toggles (`ThemeToggle` + `LocaleToggle`) do wrapper provisório em `root.tsx` para dentro do `Navbar`, removendo os marcadores `data-temporary-theme-toggle` e `data-temporary-locale-toggle`.
+
+> **Pós-merge (2026-05-18)** — duas mudanças de UX aplicadas em cima do plano original antes de abrir PR #13:
+> 1. **Brand removido inteiro do Navbar e do mobile sheet.** Decisão de produto (usuário rejeitou tanto o monograma SVG quanto o label "MH"). `src/components/Brand.tsx` + `.test.tsx` deletados. Navbar container migrou para `justify-end gap-4` para acomodar layout sem brand. `SheetTitle` no MobileMenu virou `sr-only` (mantém accessible name exigido pelo Radix Dialog sem render visual).
+> 2. **Toggles convertidos para switches estilo iOS com ícone/label dentro do thumb.** `ThemeToggle` e `LocaleToggle` deixaram de ser `<Button>` ghost e passaram a ser `SwitchPrimitives.Root` + `Thumb` (Radix). ThemeToggle: track 28×48, thumb 20×20 com `Sun`/`Moon` dentro; LocaleToggle: track 28×56, thumb 20×24 com "PT"/"EN" em mono uppercase. Acessibilidade preserva `role="switch"` + `aria-checked` + os mesmos `aria-label`s i18n; tests unitários e helpers E2E migraram de `getByRole("button")` para `getByRole("switch")`. Trouxe `@radix-ui/react-switch` como dep direta via `pnpm dlx shadcn@latest add switch`.
+> Os §3.5/§3.6 (Brand) e §3.10 (mount dos toggles dentro do Navbar) ficam como histórico do plano original.
 
 ---
 
@@ -820,3 +825,4 @@ Reaviso para evitar drift:
 | Versão | Data | Mudança |
 |--------|------|---------|
 | 0.1.0 | 2026-05-18 | Blueprint inicial derivado da FRD v0.2.0 §11 (commits 25–29) + Phase F.4 + leitura do estado pós-merge de `feat/m0-i18n` (`main` HEAD `bbab54a`). Inclui plano de reconciliação documental (FRD §4.4/§4.5/§13 + blueprint-visual) e bump final do handoff para 1.0.0. |
+| 0.2.0 | 2026-05-18 | Status passa para "Implementado". Callout no topo registra duas divergências de produto aplicadas em cima do plano original antes de PR #13: Brand removido inteiro (Navbar e mobile sheet) e toggles convertidos para switches Radix com ícone/label no thumb. FRD bump referenciado v0.3.0. |
